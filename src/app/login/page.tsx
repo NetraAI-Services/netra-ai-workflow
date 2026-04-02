@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
-import { Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -66,19 +66,24 @@ export default function LoginPage() {
     <div className="min-h-screen flex bg-background">
       {/* Left branded panel */}
       <div className="hidden lg:flex lg:w-[50%] relative overflow-hidden" style={{
-        background: 'linear-gradient(135deg, #08091A 0%, #111E6C 40%, #3340B2 70%, #5B6CF6 100%)',
+        background: 'linear-gradient(160deg, #0A0B1E 0%, #12145A 30%, #1E2278 55%, #2D35A8 80%, #5B6CF6 100%)',
       }}>
         {/* Pattern overlay */}
-        <div className="absolute inset-0 opacity-[0.07]" style={{
+        <div className="absolute inset-0 opacity-[0.05]" style={{
           backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)',
           backgroundSize: '32px 32px',
         }} />
         {/* Gradient orbs */}
-        <div className="absolute -top-32 -left-32 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
-        <div className="absolute -bottom-48 -right-48 w-[500px] h-[500px] bg-indigo-400/15 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/3 w-64 h-64 bg-blue-300/10 rounded-full blur-3xl" />
+        <div className="absolute -top-32 -left-32 w-96 h-96 bg-indigo-500/15 rounded-full blur-3xl" />
+        <div className="absolute -bottom-48 -right-48 w-[500px] h-[500px] bg-indigo-400/20 rounded-full blur-3xl" />
+        <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-violet-500/10 rounded-full blur-3xl" />
 
-        {/* Top bar */}
+        {/* Dark overlay at bottom for text readability */}
+        <div className="absolute bottom-0 left-0 right-0 h-[55%] z-10" style={{
+          background: 'linear-gradient(to top, rgba(8,9,26,0.85) 0%, rgba(8,9,26,0.4) 60%, transparent 100%)',
+        }} />
+
+        {/* Top bar — logo only */}
         <div className="absolute top-8 left-10 z-20 flex items-center gap-2.5">
           <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-white text-lg font-extrabold">
             N
@@ -86,32 +91,30 @@ export default function LoginPage() {
           <span className="text-white/90 text-lg font-semibold tracking-tight">Netra AI</span>
         </div>
 
-        <button className="absolute top-9 right-10 z-20 flex items-center gap-2 text-white/60 hover:text-white text-sm font-medium transition-colors">
-          Back to website
-          <ArrowRight className="w-4 h-4" />
-        </button>
-
-        {/* Bottom tagline */}
-        <div className="absolute bottom-14 left-10 z-20 max-w-md">
-          <h1 className="text-4xl font-bold text-white leading-tight mb-3">
-            Automate Your Social,
+        {/* Slogan area — large, high contrast */}
+        <div className="absolute bottom-16 left-10 right-10 z-20">
+          <h1 className="text-5xl font-extrabold text-white leading-[1.15] mb-4 tracking-tight">
+            Automate Your
             <br />
-            <span className="text-white/70">Amplify Your Reach.</span>
+            Social Media,
           </h1>
-          <p className="text-white/40 text-sm leading-relaxed">
+          <p className="text-2xl font-semibold text-indigo-300 mb-5">
+            Amplify Your Reach.
+          </p>
+          <p className="text-white/50 text-base leading-relaxed max-w-sm">
             AI-powered content creation and scheduling for modern teams.
           </p>
-        </div>
 
-        {/* Dot indicators */}
-        <div className="absolute bottom-14 right-10 z-20 flex gap-2 items-center">
-          <span className="w-2 h-2 rounded-full bg-white/30" />
-          <span className="w-2 h-2 rounded-full bg-white/30" />
-          <span className="w-8 h-2 rounded-full bg-white/80" />
+          {/* Dot indicators */}
+          <div className="flex gap-2 items-center mt-8">
+            <span className="w-2 h-2 rounded-full bg-white/30" />
+            <span className="w-2 h-2 rounded-full bg-white/30" />
+            <span className="w-8 h-2 rounded-full bg-indigo-400" />
+          </div>
         </div>
 
         {/* Footer */}
-        <p className="absolute bottom-5 left-10 z-20 text-white/20 text-xs">
+        <p className="absolute bottom-5 left-10 z-20 text-white/25 text-xs">
           &copy; 2026 Netra AI &mdash; Social Media Automation
         </p>
       </div>
