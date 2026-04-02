@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 import { NetraLogo } from '@/components/shared/NetraLogo';
 import { ThemeToggle } from '@/components/layout/ThemeToggle';
 import { Button } from '@/components/ui/button';
@@ -280,7 +281,7 @@ export default function LoginPage() {
               type="button"
               variant="outline"
               className="w-full h-11 gap-3 font-medium"
-              onClick={() => toast.info('Google sign-in coming soon')}
+              onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />

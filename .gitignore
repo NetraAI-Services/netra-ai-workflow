@@ -44,3 +44,4 @@ next-env.d.ts
 /src/db/*.db
 /src/db/*.db-shm
 /src/db/*.db-wal
+.env.local
