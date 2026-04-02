@@ -196,7 +196,7 @@ export default function LoginPage() {
                   placeholder="you@company.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  autoComplete="email"
+                  autoComplete="off"
                   required
                   className="h-11"
                 />
@@ -219,7 +219,7 @@ export default function LoginPage() {
                     placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
+                    autoComplete="off"
                     required
                     className="h-11 pr-10"
                   />
