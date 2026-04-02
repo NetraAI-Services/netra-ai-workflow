@@ -4,24 +4,12 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Netra AI custom color tokens */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -42,78 +30,108 @@
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Netra brand palette */
+  --color-netra-50: #EDEFFE;
+  --color-netra-100: #D9DCFD;
+  --color-netra-200: #B3BAFC;
+  --color-netra-300: #8D97FA;
+  --color-netra-400: #6774F8;
+  --color-netra-500: #5B6CF6;
+  --color-netra-600: #4451D4;
+  --color-netra-700: #3340B2;
+  --color-netra-800: #222F8F;
+  --color-netra-900: #111E6C;
+
+  /* Surface tokens */
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-nav: var(--nav);
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
+  /* Netra Light Mode */
+  --background: #FFFFFF;
+  --foreground: #0D0E2A;
+  --card: #FFFFFF;
+  --card-foreground: #0D0E2A;
+  --popover: #FFFFFF;
+  --popover-foreground: #0D0E2A;
+  --primary: #5B6CF6;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F0F2FE;
+  --secondary-foreground: #0D0E2A;
+  --muted: #F8F9FF;
+  --muted-foreground: #6B7280;
+  --accent: #EDEFFE;
+  --accent-foreground: #3340B2;
+  --destructive: #EF4444;
+  --border: #E2E4F0;
+  --input: #E2E4F0;
+  --ring: #5B6CF6;
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+
+  /* Netra surface system */
+  --surface: #F5F6FC;
+  --surface-elevated: #EDEFFE;
+  --nav: #FFFFFF;
+
+  /* Chart colors — Netra indigo spectrum */
+  --chart-1: #5B6CF6;
+  --chart-2: #8D97FA;
+  --chart-3: #4451D4;
+  --chart-4: #B3BAFC;
+  --chart-5: #3340B2;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(91, 108, 246, 0.04);
+  --shadow-sm: 0 1px 3px rgba(91, 108, 246, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(91, 108, 246, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 8px 24px rgba(91, 108, 246, 0.10), 0 4px 8px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 16px 48px rgba(91, 108, 246, 0.12), 0 8px 16px rgba(0, 0, 0, 0.04);
+  --shadow-glow: 0 0 0 1px rgba(91, 108, 246, 0.08), 0 4px 16px rgba(91, 108, 246, 0.12);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  /* Netra Dark Mode */
+  --background: #08091A;
+  --foreground: #EEF0FF;
+  --card: #12132B;
+  --card-foreground: #EEF0FF;
+  --popover: #12132B;
+  --popover-foreground: #EEF0FF;
+  --primary: #6B7AF8;
+  --primary-foreground: #FFFFFF;
+  --secondary: #1C1E3A;
+  --secondary-foreground: #EEF0FF;
+  --muted: #15162E;
+  --muted-foreground: #8B90C0;
+  --accent: #1A1D42;
+  --accent-foreground: #B3BAFC;
+  --destructive: #F87171;
+  --border: #1E2042;
+  --input: #1E2042;
+  --ring: #6B7AF8;
+
+  /* Netra surface system dark */
+  --surface: #0C0D22;
+  --surface-elevated: #15162E;
+  --nav: #0A0B1E;
+
+  /* Chart colors dark */
+  --chart-1: #6B7AF8;
+  --chart-2: #8D97FA;
+  --chart-3: #4451D4;
+  --chart-4: #B3BAFC;
+  --chart-5: #5B6CF6;
+
+  /* Shadows dark */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.35), 0 4px 8px rgba(0, 0, 0, 0.2);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.4), 0 8px 16px rgba(0, 0, 0, 0.2);
+  --shadow-glow: 0 0 0 1px rgba(107, 122, 248, 0.15), 0 4px 16px rgba(107, 122, 248, 0.08);
 }
 
 @layer base {
@@ -121,9 +139,160 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
   }
   html {
     @apply font-sans;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+}
+
+/* Smooth theme transition */
+*, *::before, *::after {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.1s ease, box-shadow 0.2s ease;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
+
+/* ── Netra Utility Classes ─────────────────────────────── */
+
+/* Branded gradient backgrounds */
+.netra-gradient-hero {
+  background: linear-gradient(135deg, var(--primary) 0%, #3340B2 50%, #222F8F 100%);
+}
+.netra-gradient-subtle {
+  background: linear-gradient(135deg, rgba(91,108,246,0.06) 0%, rgba(51,64,178,0.03) 100%);
+}
+.dark .netra-gradient-subtle {
+  background: linear-gradient(135deg, rgba(107,122,248,0.08) 0%, rgba(51,64,178,0.04) 100%);
+}
+.netra-gradient-card {
+  background: linear-gradient(180deg, var(--card) 0%, var(--surface) 100%);
+}
+
+/* Glass morphism for overlays */
+.netra-glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px) saturate(1.8);
+  -webkit-backdrop-filter: blur(16px) saturate(1.8);
+}
+.dark .netra-glass {
+  background: rgba(12, 13, 34, 0.8);
+  backdrop-filter: blur(16px) saturate(1.5);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
+}
+
+/* Dot grid pattern for backgrounds */
+.netra-dots {
+  background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Rich card styles */
+.netra-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+}
+.netra-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: rgba(91, 108, 246, 0.2);
+}
+.dark .netra-card:hover {
+  border-color: rgba(107, 122, 248, 0.15);
+}
+.netra-card-interactive {
+  cursor: pointer;
+}
+.netra-card-interactive:hover {
+  transform: translateY(-1px);
+}
+.netra-card-interactive:active {
+  transform: translateY(0);
+}
+
+/* Metric card accent line */
+.netra-metric-card {
+  position: relative;
+  overflow: hidden;
+}
+.netra-metric-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), #8D97FA);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.netra-metric-card:hover::before {
+  opacity: 1;
+}
+
+/* Glow effect for primary buttons */
+.netra-btn-glow {
+  box-shadow: 0 2px 8px rgba(91, 108, 246, 0.25), 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s ease, transform 0.15s ease;
+}
+.netra-btn-glow:hover {
+  box-shadow: 0 4px 16px rgba(91, 108, 246, 0.35), 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+.netra-btn-glow:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(91, 108, 246, 0.2);
+}
+
+/* Status indicator dots with pulse */
+.netra-pulse {
+  animation: netra-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+@keyframes netra-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Fade in animation for page content */
+.netra-fade-in {
+  animation: netra-fade-in 0.4s ease-out;
+}
+@keyframes netra-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Shimmer loading effect */
+.netra-shimmer {
+  background: linear-gradient(90deg, var(--secondary) 25%, var(--accent) 50%, var(--secondary) 75%);
+  background-size: 200% 100%;
+  animation: netra-shimmer 1.5s ease-in-out infinite;
+}
+@keyframes netra-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Section divider */
+.netra-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
 }

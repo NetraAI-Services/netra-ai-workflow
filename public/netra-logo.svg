@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 80" fill="none">
+  <!-- Icon mark: N in rounded square -->
+  <rect x="0" y="4" width="72" height="72" rx="16" fill="#5B6CF6"/>
+  <!-- N letter -->
+  <text x="10" y="58" font-family="Arial, sans-serif" font-size="52" font-weight="800" fill="white">N</text>
+  <!-- Small AI silhouette cutout suggestion via overlay -->
+  <!-- "etra" wordmark -->
+  <text x="82" y="58" font-family="Arial, sans-serif" font-size="52" font-weight="700" fill="#5B6CF6">etra</text>
+</svg>
