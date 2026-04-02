@@ -292,10 +292,6 @@ export default function LoginPage() {
               Continue with Google
             </Button>
 
-            {/* Demo hint */}
-            <p className="text-center text-xs text-muted-foreground mt-6">
-              Demo mode &mdash; enter any email with 6+ character password
-            </p>
           </div>
         </div>
       </div>
