@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { NetraLogo } from '@/components/shared/NetraLogo';
 import { ThemeToggle } from '@/components/layout/ThemeToggle';
-import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -87,16 +86,7 @@ export default function LoginPage() {
 
         {/* Top bar — logo */}
         <div className="absolute top-8 left-10 z-20">
-          <span className="rounded-xl overflow-hidden bg-white inline-flex items-center justify-center w-12 h-12 shadow-lg">
-            <Image
-              src="/logo.svg"
-              alt="Logo"
-              width={48}
-              height={48}
-              className="w-full h-full object-contain"
-              priority
-            />
-          </span>
+          <NetraLogo variant="white" />
         </div>
 
         {/* Slogan area — large, high contrast */}

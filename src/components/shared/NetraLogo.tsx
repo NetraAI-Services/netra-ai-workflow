@@ -1,24 +1,19 @@
 'use client';
 import Link from 'next/link';
-import Image from 'next/image';
 
 interface NetraLogoProps {
   className?: string;
-  size?: number;
+  variant?: 'default' | 'white';
 }
 
-export function NetraLogo({ className = '', size = 48 }: NetraLogoProps) {
+export function NetraLogo({ className = '', variant = 'default' }: NetraLogoProps) {
+  const textColor = variant === 'white' ? 'text-white' : 'text-primary';
+
   return (
     <Link href="/dashboard" className={`flex items-center select-none ${className}`}>
-      <Image
-        src="/logo-mark.svg"
-        alt="Logo"
-        width={size}
-        height={size}
-        style={{ width: size, height: size }}
-        className="object-contain"
-        priority
-      />
+      <span className={`text-2xl font-bold tracking-tight ${textColor}`} style={{ fontFamily: 'system-ui, -apple-system, sans-serif', letterSpacing: '-0.02em' }}>
+        Netra<span className="font-black">AI</span>
+      </span>
     </Link>
   );
 }

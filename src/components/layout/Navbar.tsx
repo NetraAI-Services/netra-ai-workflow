@@ -33,7 +33,7 @@ export function Navbar() {
     <>
       <header className="fixed top-0 left-0 right-0 z-50 bg-nav/50 backdrop-blur-2xl border-b border-white/[0.06] shadow-[0_1px_12px_rgba(0,0,0,0.12)]">
         <div className="max-w-screen-xl mx-auto px-5 lg:px-8 h-14 flex items-center gap-6">
-          <NetraLogo size={32} className="flex-shrink-0" />
+          <NetraLogo className="flex-shrink-0" />
 
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-0.5 flex-1">
