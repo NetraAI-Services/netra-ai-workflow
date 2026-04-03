@@ -23,8 +23,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Netra AI Workflow",
-  description: "AI-powered social media content automation by Netra AI",
+  title: "AI Workflow",
+  description: "AI-powered social media content automation",
 };
 
 export default function RootLayout({

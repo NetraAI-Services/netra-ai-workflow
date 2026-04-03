@@ -11,22 +11,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-  LayoutDashboard, PenSquare, Calendar, FileText,
-  Lightbulb, BarChart2, MessageCircle, Settings,
-  Menu, X, LogOut, User, Bell,
-} from 'lucide-react';
+import { Menu, X, LogOut, User, Settings } from 'lucide-react';
 import { useAppStore } from '@/store/useAppStore';
 import { cn } from '@/lib/utils';
 
 const NAV_ITEMS = [
-  { href: '/dashboard',  label: 'Dashboard',  icon: LayoutDashboard },
-  { href: '/create',     label: 'Create',     icon: PenSquare },
-  { href: '/calendar',   label: 'Calendar',   icon: Calendar },
-  { href: '/posts',      label: 'Posts',       icon: FileText },
-  { href: '/ideas',      label: 'Ideas',       icon: Lightbulb },
-  { href: '/analytics',  label: 'Analytics',   icon: BarChart2 },
-  { href: '/engagement', label: 'Engagement',  icon: MessageCircle },
+  { href: '/dashboard',  label: 'Dashboard' },
+  { href: '/create',     label: 'Create' },
+  { href: '/calendar',   label: 'Calendar' },
+  { href: '/posts',      label: 'Posts' },
+  { href: '/ideas',      label: 'Ideas' },
+  { href: '/analytics',  label: 'Analytics' },
+  { href: '/engagement', label: 'Engagement' },
 ];
 
 export function Navbar() {
@@ -36,26 +32,24 @@ export function Navbar() {
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-50 bg-nav/50 backdrop-blur-2xl border-b border-white/[0.06] shadow-[0_1px_12px_rgba(0,0,0,0.12)]">
-        <div className="max-w-screen-xl mx-auto px-5 lg:px-8 h-14 flex items-center gap-5">
-          <NetraLogo className="flex-shrink-0" />
+        <div className="max-w-screen-xl mx-auto px-5 lg:px-8 h-14 flex items-center gap-6">
+          <NetraLogo size={36} className="flex-shrink-0" />
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-1.5 flex-1">
+          <nav className="hidden md:flex items-center gap-0.5 flex-1">
             {NAV_ITEMS.map((item) => {
               const active = pathname === item.href || pathname.startsWith(item.href + '/');
-              const Icon = item.icon;
               return (
                 <Link
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    'relative flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all',
+                    'relative px-4 py-2 rounded-lg text-sm font-medium tracking-[0.01em] transition-all',
                     active
                       ? 'text-primary bg-primary/8 dark:bg-primary/10'
                       : 'text-muted-foreground hover:text-foreground hover:bg-accent/60'
                   )}
                 >
-                  <Icon className="w-4 h-4" />
                   {item.label}
                   {active && (
                     <span className="absolute -bottom-[9px] left-3 right-3 h-[2px] bg-primary rounded-full" />
@@ -66,19 +60,10 @@ export function Navbar() {
           </nav>
 
           {/* Right side */}
-          <div className="ml-auto flex items-center gap-1.5">
+          <div className="ml-auto flex items-center gap-2">
             <ThemeToggle />
 
-            <button className="hidden md:flex w-8 h-8 items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent/60 transition-colors relative">
-              <Bell className="w-4 h-4" />
-              <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-primary rounded-full netra-pulse" />
-            </button>
-
-            <Link href="/settings/brand" className="hidden md:flex w-8 h-8 items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent/60 transition-colors">
-              <Settings className="w-4 h-4" />
-            </Link>
-
-            <div className="hidden md:block w-px h-5 bg-border mx-1" />
+            <div className="hidden md:block w-px h-5 bg-border mx-0.5" />
 
             {/* User menu */}
             <DropdownMenu>
@@ -122,20 +107,18 @@ export function Navbar() {
           <nav className="absolute top-14 left-0 right-0 bg-card/95 backdrop-blur-xl border-b border-border p-3 flex flex-col gap-0.5 shadow-xl">
             {NAV_ITEMS.map((item) => {
               const active = pathname === item.href || pathname.startsWith(item.href + '/');
-              const Icon = item.icon;
               return (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={cn(
-                    'flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors',
+                    'px-4 py-2.5 rounded-xl text-sm font-medium tracking-[0.01em] transition-colors',
                     active
                       ? 'bg-primary/10 text-primary'
                       : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
                   )}
                 >
-                  <Icon className="w-4 h-4" />
                   {item.label}
                 </Link>
               );
@@ -144,16 +127,16 @@ export function Navbar() {
             <Link
               href="/settings/brand"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50"
+              className="px-4 py-2.5 rounded-xl text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50"
             >
-              <Settings className="w-4 h-4" /> Settings
+              Settings
             </Link>
             <Link
               href="/login"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-destructive hover:bg-destructive/10"
+              className="px-4 py-2.5 rounded-xl text-sm font-medium text-destructive hover:bg-destructive/10"
             >
-              <LogOut className="w-4 h-4" /> Sign out
+              Sign out
             </Link>
           </nav>
         </div>

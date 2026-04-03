@@ -55,7 +55,7 @@ export default function LoginPage() {
     }
     setLoading(true);
     await new Promise((r) => setTimeout(r, 800));
-    toast.success('Account created! Welcome to Netra AI');
+    toast.success('Account created! Welcome.');
     router.push('/dashboard');
   }
 
@@ -87,14 +87,16 @@ export default function LoginPage() {
 
         {/* Top bar — logo */}
         <div className="absolute top-8 left-10 z-20">
-          <Image
-            src="/netra-logo-white.svg"
-            alt="Netra AI"
-            width={150}
-            height={42}
-            className="h-10 w-auto drop-shadow-lg"
-            priority
-          />
+          <span className="rounded-xl overflow-hidden bg-white inline-flex items-center justify-center w-12 h-12 shadow-lg">
+            <Image
+              src="/logo.svg"
+              alt="Logo"
+              width={48}
+              height={48}
+              className="w-full h-full object-contain"
+              priority
+            />
+          </span>
         </div>
 
         {/* Slogan area — large, high contrast */}
@@ -121,7 +123,7 @@ export default function LoginPage() {
 
         {/* Footer */}
         <p className="absolute bottom-5 left-10 z-20 text-white/25 text-xs">
-          &copy; 2026 Netra AI &mdash; Social Media Automation
+          &copy; 2026 &mdash; Social Media Automation
         </p>
       </div>
 

@@ -3,24 +3,24 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 interface NetraLogoProps {
-  iconOnly?: boolean;
   className?: string;
-  variant?: 'default' | 'white';
+  size?: number;
 }
 
-export function NetraLogo({ iconOnly = false, className = '', variant = 'default' }: NetraLogoProps) {
-  const src = variant === 'white' ? '/netra-logo-white.svg' : '/netra-logo.svg';
-
+export function NetraLogo({ className = '', size = 48 }: NetraLogoProps) {
   return (
     <Link href="/dashboard" className={`flex items-center select-none ${className}`}>
-      <Image
-        src={src}
-        alt="Netra AI"
-        width={iconOnly ? 36 : 130}
-        height={iconOnly ? 36 : 38}
-        className={iconOnly ? 'w-9 h-9' : 'h-8 w-auto'}
-        priority
-      />
+      <span className="rounded-lg overflow-hidden bg-white inline-flex items-center justify-center"
+        style={{ width: size, height: size }}>
+        <Image
+          src="/logo.svg"
+          alt="Logo"
+          width={size}
+          height={size}
+          className="w-full h-full object-contain"
+          priority
+        />
+      </span>
     </Link>
   );
 }
