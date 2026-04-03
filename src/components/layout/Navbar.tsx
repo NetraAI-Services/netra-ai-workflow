@@ -40,7 +40,7 @@ export function Navbar() {
           <NetraLogo className="flex-shrink-0" />
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-0.5 flex-1">
+          <nav className="hidden md:flex items-center gap-1.5 flex-1">
             {NAV_ITEMS.map((item) => {
               const active = pathname === item.href || pathname.startsWith(item.href + '/');
               const Icon = item.icon;
@@ -49,13 +49,13 @@ export function Navbar() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    'relative flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[13px] font-medium transition-all',
+                    'relative flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all',
                     active
                       ? 'text-primary bg-primary/8 dark:bg-primary/10'
                       : 'text-muted-foreground hover:text-foreground hover:bg-accent/60'
                   )}
                 >
-                  <Icon className="w-3.5 h-3.5" />
+                  <Icon className="w-4 h-4" />
                   {item.label}
                   {active && (
                     <span className="absolute -bottom-[9px] left-3 right-3 h-[2px] bg-primary rounded-full" />
