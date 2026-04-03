@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import { NetraLogo } from '@/components/shared/NetraLogo';
 import { ThemeToggle } from '@/components/layout/ThemeToggle';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -84,12 +85,16 @@ export default function LoginPage() {
           background: 'linear-gradient(to top, rgba(8,9,26,0.85) 0%, rgba(8,9,26,0.4) 60%, transparent 100%)',
         }} />
 
-        {/* Top bar — logo only */}
-        <div className="absolute top-8 left-10 z-20 flex items-center gap-2.5">
-          <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-white text-lg font-extrabold">
-            N
-          </div>
-          <span className="font-heading text-white/90 text-lg font-semibold tracking-tight">Netra AI</span>
+        {/* Top bar — logo */}
+        <div className="absolute top-8 left-10 z-20">
+          <Image
+            src="/netra-logo-white.svg"
+            alt="Netra AI"
+            width={150}
+            height={42}
+            className="h-10 w-auto drop-shadow-lg"
+            priority
+          />
         </div>
 
         {/* Slogan area — large, high contrast */}
