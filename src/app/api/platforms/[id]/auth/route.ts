@@ -3,9 +3,9 @@ import { generateState } from '@/lib/api/oauth';
 
 const PLATFORM_CONFIGS: Record<string, any> = {
   instagram: {
-    authUrl: 'https://www.instagram.com/oauth/authorize',
+    authUrl: 'https://www.facebook.com/v21.0/dialog/oauth',
     clientId: process.env.INSTAGRAM_CLIENT_ID,
-    scope: 'user_profile,instagram_business_basic,instagram_business_manage_comments,instagram_business_content_publish,instagram_business_manage_insights',
+    scope: 'instagram_basic,instagram_content_publish,instagram_manage_insights,instagram_manage_comments,pages_read_engagement,pages_show_list',
     redirectUri: process.env.INSTAGRAM_REDIRECT_URI || 'http://localhost:3000/api/platforms/instagram/callback',
   },
   tiktok: {
