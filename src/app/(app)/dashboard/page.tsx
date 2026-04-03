@@ -64,13 +64,13 @@ export default function DashboardPage() {
 
         <div className="relative z-10 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
           <div>
-            <p className="text-white/50 text-sm font-medium mb-1">
+            <p className="text-overline text-white/50 mb-1">
               {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
             </p>
-            <h1 className="text-2xl lg:text-3xl font-bold text-white">
+            <h1 className="text-page-title text-white">
               Welcome back{brand.name !== 'My Brand' ? `, ${brand.name}` : ''}
             </h1>
-            <p className="text-white/60 text-sm mt-2 max-w-md">
+            <p className="text-body-sm text-white/60 mt-2 max-w-md">
               Here&apos;s your social media overview. Create AI-powered content, schedule posts, and track engagement.
             </p>
           </div>
@@ -91,14 +91,14 @@ export default function DashboardPage() {
           return (
             <div key={m.label} className={`netra-card netra-metric-card netra-card-interactive bg-gradient-to-br ${accent.gradient} p-5`}>
               <div className="flex items-center justify-between mb-3">
-                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                <p className="text-label text-muted-foreground">
                   {m.label}
                 </p>
                 <div className={`w-9 h-9 rounded-xl ${accent.iconBg} flex items-center justify-center`}>
                   <Icon className={`w-[18px] h-[18px] ${accent.iconColor}`} />
                 </div>
               </div>
-              <p className="text-3xl font-bold text-foreground tracking-tight">{m.value}</p>
+              <p className="font-heading text-3xl font-bold text-foreground tracking-tight">{m.value}</p>
               {m.change && (
                 <p className="text-xs text-emerald-600 mt-1.5 flex items-center gap-1 font-medium">
                   <ArrowUpRight className="w-3 h-3" /> {m.change}
@@ -112,7 +112,7 @@ export default function DashboardPage() {
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Quick actions */}
         <div className="lg:col-span-1 space-y-3">
-          <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-1">
+          <h2 className="text-overline px-1">
             Quick Actions
           </h2>
           <div className="flex flex-col gap-2">
@@ -139,7 +139,7 @@ export default function DashboardPage() {
         {/* Recent posts */}
         <div className="lg:col-span-2 space-y-3">
           <div className="flex items-center justify-between px-1">
-            <h2 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+            <h2 className="text-overline">
               Recent Posts
             </h2>
             <Link href="/posts" className="text-xs text-primary hover:text-primary/80 font-medium flex items-center gap-1">
@@ -200,8 +200,8 @@ export default function DashboardPage() {
             { label: 'Published', count: published, color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50/80 dark:bg-emerald-950/30' },
           ].map((s) => (
             <div key={s.label} className={`netra-card text-center p-5 ${s.bg}`}>
-              <p className={`text-3xl font-bold tracking-tight ${s.color}`}>{s.count}</p>
-              <p className="text-xs font-medium text-muted-foreground mt-1 uppercase tracking-wider">{s.label}</p>
+              <p className={`font-heading text-3xl font-bold tracking-tight ${s.color}`}>{s.count}</p>
+              <p className="text-label text-muted-foreground mt-1">{s.label}</p>
             </div>
           ))}
         </div>

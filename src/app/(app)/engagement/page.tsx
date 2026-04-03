@@ -55,14 +55,14 @@ export default function EngagementPage() {
     <div className="space-y-6 netra-fade-in">
       <div>
         <div className="flex items-center gap-3">
-          <h1 className="text-2xl font-bold text-foreground">Engagement</h1>
+          <h1 className="text-page-title text-foreground">Engagement</h1>
           {unreplied > 0 && (
             <span className="text-[11px] bg-primary text-primary-foreground px-2.5 py-0.5 rounded-full font-bold tabular-nums">
               {unreplied} new
             </span>
           )}
         </div>
-        <p className="text-muted-foreground text-sm mt-1">Unified inbox for comments and replies across platforms.</p>
+        <p className="text-body-sm text-muted-foreground mt-1">Unified inbox for comments and replies across platforms.</p>
       </div>
 
       {/* Filters */}

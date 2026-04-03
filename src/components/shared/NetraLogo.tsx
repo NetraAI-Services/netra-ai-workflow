@@ -19,7 +19,7 @@ export function NetraLogo({ iconOnly = false, className = '' }: NetraLogoProps) 
         N
       </div>
       {!iconOnly && (
-        <span className="text-xl font-bold tracking-tight text-foreground">
+        <span className="font-heading text-xl font-bold tracking-tight text-foreground">
           <span style={{ color: '#5B6CF6' }}>Netra</span>
           <span className="text-muted-foreground font-normal ml-1 text-sm">AI</span>
         </span>

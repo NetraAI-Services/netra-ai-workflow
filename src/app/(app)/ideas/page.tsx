@@ -72,8 +72,8 @@ export default function IdeasPage() {
     <div className="space-y-6 netra-fade-in">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Idea Bank</h1>
-          <p className="text-muted-foreground text-sm mt-1">Organise content ideas by pillar. Drag to move between columns.</p>
+          <h1 className="text-page-title text-foreground">Idea Bank</h1>
+          <p className="text-body-sm text-muted-foreground mt-1">Organise content ideas by pillar. Drag to move between columns.</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" onClick={() => setAddPillarOpen(true)} className="gap-1.5 text-xs font-semibold">

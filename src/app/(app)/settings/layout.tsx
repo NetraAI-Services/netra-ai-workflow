@@ -19,8 +19,8 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Settings</h1>
-        <p className="text-muted-foreground text-sm mt-1">Manage your workflow configuration.</p>
+        <h1 className="text-page-title">Settings</h1>
+        <p className="text-body-sm text-muted-foreground mt-1">Manage your workflow configuration.</p>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-6">

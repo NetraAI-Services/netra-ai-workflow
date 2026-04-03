@@ -51,8 +51,8 @@ export default function CalendarPage() {
     <div className="space-y-6 netra-fade-in">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Calendar</h1>
-          <p className="text-muted-foreground text-sm mt-1">View and manage your scheduled content.</p>
+          <h1 className="text-page-title text-foreground">Calendar</h1>
+          <p className="text-body-sm text-muted-foreground mt-1">View and manage your scheduled content.</p>
         </div>
         <Link href="/create">
           <Button className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2 netra-btn-glow">

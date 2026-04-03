@@ -114,8 +114,8 @@ export default function AnalyticsPage() {
     <div className="space-y-8 netra-fade-in">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Analytics</h1>
-          <p className="text-muted-foreground text-sm mt-1">
+          <h1 className="text-page-title text-foreground">Analytics</h1>
+          <p className="text-body-sm text-muted-foreground mt-1">
             Track performance across all connected platforms.
           </p>
         </div>

@@ -89,20 +89,20 @@ export default function LoginPage() {
           <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-white text-lg font-extrabold">
             N
           </div>
-          <span className="text-white/90 text-lg font-semibold tracking-tight">Netra AI</span>
+          <span className="font-heading text-white/90 text-lg font-semibold tracking-tight">Netra AI</span>
         </div>
 
         {/* Slogan area — large, high contrast */}
         <div className="absolute bottom-16 left-10 right-10 z-20">
-          <h1 className="text-5xl font-extrabold text-white leading-[1.15] mb-4 tracking-tight">
+          <h1 className="text-display text-white mb-4">
             Automate Your
             <br />
             Social Media,
           </h1>
-          <p className="text-2xl font-semibold text-indigo-300 mb-5">
+          <p className="text-section-title text-indigo-300 mb-5">
             Amplify Your Reach.
           </p>
-          <p className="text-white/50 text-base leading-relaxed max-w-sm">
+          <p className="text-body-sm text-white/50 max-w-sm">
             AI-powered content creation and scheduling for modern teams.
           </p>
 
@@ -136,10 +136,10 @@ export default function LoginPage() {
           <div key={mode} className="w-full max-w-[400px] netra-fade-in">
             {/* Header */}
             <div className="mb-8">
-              <h2 className="text-3xl font-bold text-foreground">
+              <h2 className="text-page-title text-foreground">
                 {mode === 'login' ? 'Welcome back' : 'Create an account'}
               </h2>
-              <p className="text-muted-foreground text-sm mt-2">
+              <p className="text-body-sm text-muted-foreground mt-2">
                 {mode === 'login' ? (
                   <>Don&apos;t have an account?{' '}
                     <button onClick={switchMode} className="text-primary hover:text-primary/80 font-semibold transition-colors">

@@ -22,8 +22,8 @@ export default function CreatePage() {
   return (
     <div className="max-w-3xl mx-auto space-y-6 netra-fade-in">
       <div>
-        <h1 className="text-2xl font-bold text-foreground">Create Post</h1>
-        <p className="text-muted-foreground text-sm mt-1">
+        <h1 className="text-page-title text-foreground">Create Post</h1>
+        <p className="text-body-sm text-muted-foreground mt-1">
           AI-powered content generation for all your social platforms.
         </p>
       </div>
