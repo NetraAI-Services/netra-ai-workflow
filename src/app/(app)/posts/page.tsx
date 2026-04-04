@@ -5,6 +5,8 @@ import { useScheduleStore } from '@/store/useScheduleStore';
 import { useSettingsStore } from '@/store/useSettingsStore';
 import { Button } from '@/components/ui/button';
 import { PlatformIcon } from '@/components/shared/PlatformIcon';
+import { PageTransition, StaggerContainer, StaggerItem } from '@/components/shared/animations';
+import { motion, AnimatePresence } from 'framer-motion';
 import { PenSquare, Trash2, Sparkles, FileText, Send, Loader2 } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -20,6 +22,13 @@ const STATUS_STYLES: Record<PostStatus, string> = {
   pending_approval: 'bg-amber-50 text-amber-700 ring-1 ring-amber-200/60 dark:bg-amber-950/40 dark:text-amber-300 dark:ring-amber-800/40',
 };
 
+const PLATFORM_BRAND_COLORS: Record<PlatformId, string> = {
+  instagram: '#E1306C',
+  tiktok: '#010101',
+  youtube: '#FF0000',
+  twitter: '#1DA1F2',
+};
+
 export default function PostsPage() {
   const { posts, deletePost, updatePost } = useScheduleStore();
   const { platforms } = useSettingsStore();
@@ -30,7 +39,7 @@ export default function PostsPage() {
 
   async function handlePublish(post: Post) {
     if (!platforms.instagram.connected) {
-      toast.error('Instagram not connected. Go to Settings → Platforms to connect.');
+      toast.error('Instagram not connected. Go to Settings \u2192 Platforms to connect.');
       return;
     }
 
@@ -79,7 +88,7 @@ export default function PostsPage() {
   }
 
   return (
-    <div className="space-y-6 netra-fade-in">
+    <PageTransition className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-page-title text-foreground">Posts</h1>
@@ -88,88 +97,138 @@ export default function PostsPage() {
           </p>
         </div>
         <Link href="/create">
-          <Button className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2 netra-btn-glow">
+          <Button className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2 rounded-xl netra-btn-glow">
             <Sparkles className="w-4 h-4" /> New Post
           </Button>
         </Link>
       </div>
 
-      {/* Filter tabs */}
+      {/* Pill-style filter tabs */}
       <div className="flex gap-1.5 flex-wrap">
         {(['all', ...ALL_STATUSES] as const).map((s) => (
           <button
             key={s}
             onClick={() => setFilter(s)}
-            className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all capitalize ${
+            className={`relative px-4 py-1.5 rounded-full text-xs font-semibold transition-colors capitalize ${
               filter === s
-                ? 'bg-primary text-primary-foreground shadow-sm'
-                : 'bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border'
+                ? 'text-white'
+                : 'text-muted-foreground hover:text-foreground'
             }`}
           >
-            {s}
+            {filter === s && (
+              <motion.span
+                layoutId="posts-filter"
+                className="absolute inset-0 bg-primary rounded-full"
+                transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+              />
+            )}
+            <span className="relative z-10">{s}</span>
           </button>
         ))}
       </div>
 
       {/* Posts list */}
-      {filtered.length === 0 ? (
-        <div className="netra-card p-14 text-center">
-          <div className="w-14 h-14 rounded-2xl bg-muted/60 flex items-center justify-center mx-auto mb-4">
-            <FileText className="w-7 h-7 text-muted-foreground/40" />
-          </div>
-          <p className="font-semibold text-foreground">No posts found</p>
-          <p className="text-sm text-muted-foreground mt-1">
-            {filter === 'all' ? 'Create your first post to get started.' : `No ${filter} posts.`}
-          </p>
-        </div>
-      ) : (
-        <div className="flex flex-col gap-1.5">
-          {filtered.map((post) => (
-            <div key={post.id} className="netra-card p-4 flex items-center gap-4">
-              <div className="flex gap-1.5 flex-shrink-0">
-                {post.draft.platforms.map((p) => (
-                  <PlatformIcon key={p} platform={p as PlatformId} size={18} />
-                ))}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="font-medium text-sm text-foreground truncate">
-                  {post.draft.topic || 'Untitled Post'}
-                </p>
-                <p className="text-xs text-muted-foreground mt-0.5">
-                  {post.scheduledAt
-                    ? `Scheduled: ${formatDate(post.scheduledAt, 'MMM d, yyyy h:mm a')}`
-                    : formatDate(post.createdAt)}
-                </p>
-              </div>
-              <span className={`hidden sm:inline text-[11px] font-semibold px-2.5 py-1 rounded-full capitalize ${STATUS_STYLES[post.status]}`}>
-                {post.status.replace('_', ' ')}
-              </span>
-              {(post.status === 'scheduled' || post.status === 'draft') &&
-                post.draft.platforms.includes('instagram') && (
-                  <button
-                    onClick={() => handlePublish(post)}
-                    disabled={publishing === post.id}
-                    className="p-1.5 rounded-lg hover:bg-primary/10 text-muted-foreground/60 hover:text-primary transition-colors disabled:opacity-50"
-                    title="Publish to Instagram"
-                  >
-                    {publishing === post.id ? (
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                    ) : (
-                      <Send className="w-4 h-4" />
-                    )}
-                  </button>
-                )}
-              <button
-                onClick={() => deletePost(post.id)}
-                className="p-1.5 rounded-lg hover:bg-destructive/10 text-muted-foreground/40 hover:text-destructive transition-colors"
-                title="Delete post"
+      <AnimatePresence mode="wait">
+        {filtered.length === 0 ? (
+          <motion.div
+            key="empty"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25 }}
+          >
+            <div className="netra-card p-14 text-center">
+              <motion.div
+                animate={{ y: [0, -4, 0] }}
+                transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+                className="w-14 h-14 rounded-2xl bg-muted/60 flex items-center justify-center mx-auto mb-4"
               >
-                <Trash2 className="w-4 h-4" />
-              </button>
+                <FileText className="w-7 h-7 text-muted-foreground/40" />
+              </motion.div>
+              <p className="font-semibold text-foreground">No posts found</p>
+              <p className="text-sm text-muted-foreground mt-1 mb-4">
+                {filter === 'all' ? 'Create your first post to get started.' : `No ${filter} posts.`}
+              </p>
+              {filter === 'all' && (
+                <Link href="/create">
+                  <Button className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2 rounded-xl netra-btn-glow netra-btn-shimmer">
+                    <Sparkles className="w-4 h-4" /> Create Post
+                  </Button>
+                </Link>
+              )}
             </div>
-          ))}
-        </div>
-      )}
-    </div>
+          </motion.div>
+        ) : (
+          <motion.div
+            key={filter}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25 }}
+          >
+            <StaggerContainer className="flex flex-col gap-1.5">
+              {filtered.map((post) => {
+                const leadPlatform = post.draft.platforms[0] as PlatformId | undefined;
+                const borderColor = leadPlatform ? PLATFORM_BRAND_COLORS[leadPlatform] : undefined;
+
+                return (
+                  <StaggerItem key={post.id}>
+                    <motion.div
+                      whileHover={{ y: -2 }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                      className="netra-card p-4 flex items-center gap-4"
+                      style={{
+                        borderLeft: borderColor ? `3px solid ${borderColor}` : undefined,
+                      }}
+                    >
+                      <div className="flex gap-1.5 flex-shrink-0">
+                        {post.draft.platforms.map((p) => (
+                          <PlatformIcon key={p} platform={p as PlatformId} size={18} />
+                        ))}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-sm text-foreground truncate">
+                          {post.draft.topic || 'Untitled Post'}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                          {post.scheduledAt
+                            ? `Scheduled: ${formatDate(post.scheduledAt, 'MMM d, yyyy h:mm a')}`
+                            : formatDate(post.createdAt)}
+                        </p>
+                      </div>
+                      <span className={`hidden sm:inline text-[11px] font-semibold px-2.5 py-1 rounded-full capitalize ${STATUS_STYLES[post.status]}`}>
+                        {post.status.replace('_', ' ')}
+                      </span>
+                      {(post.status === 'scheduled' || post.status === 'draft') &&
+                        post.draft.platforms.includes('instagram') && (
+                          <button
+                            onClick={() => handlePublish(post)}
+                            disabled={publishing === post.id}
+                            className="p-1.5 rounded-xl hover:bg-primary/10 text-muted-foreground/60 hover:text-primary transition-colors disabled:opacity-50"
+                            title="Publish to Instagram"
+                          >
+                            {publishing === post.id ? (
+                              <Loader2 className="w-4 h-4 animate-spin" />
+                            ) : (
+                              <Send className="w-4 h-4" />
+                            )}
+                          </button>
+                        )}
+                      <button
+                        onClick={() => deletePost(post.id)}
+                        className="p-1.5 rounded-xl hover:bg-destructive/10 text-muted-foreground/40 hover:text-destructive transition-colors"
+                        title="Delete post"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </motion.div>
+                  </StaggerItem>
+                );
+              })}
+            </StaggerContainer>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </PageTransition>
   );
 }

@@ -51,26 +51,31 @@
 }
 
 :root {
-  /* Netra Light Mode */
-  --background: #FFFFFF;
-  --foreground: #0D0E2A;
+  /* Netra Light Mode — Premium refined palette */
+  --background: #FAFBFF;
+  --foreground: #0A0B1F;
   --card: #FFFFFF;
-  --card-foreground: #0D0E2A;
+  --card-foreground: #0A0B1F;
   --popover: #FFFFFF;
-  --popover-foreground: #0D0E2A;
+  --popover-foreground: #0A0B1F;
   --primary: #5B6CF6;
   --primary-foreground: #FFFFFF;
-  --secondary: #F0F2FE;
-  --secondary-foreground: #0D0E2A;
-  --muted: #F8F9FF;
-  --muted-foreground: #6B7280;
-  --accent: #EDEFFE;
-  --accent-foreground: #3340B2;
+  --secondary: #EEF0FE;
+  --secondary-foreground: #0A0B1F;
+  --muted: #F4F5FB;
+  --muted-foreground: #5F6580;
+  --accent: #EAECFE;
+  --accent-foreground: #2D35A8;
   --destructive: #EF4444;
-  --border: #E2E4F0;
-  --input: #E2E4F0;
+  --border: #E0E3F0;
+  --input: #E0E3F0;
   --ring: #5B6CF6;
-  --radius: 0.625rem;
+  --radius: 0.75rem;
+
+  /* Semantic status colors */
+  --success: #10B981;
+  --warning: #F59E0B;
+  --info: #3B82F6;
 
   /* ── Typography Scale ──────────────────────────────── */
   --text-display:   3rem;
@@ -83,19 +88,19 @@
   --text-caption:   0.8125rem;
   --text-xs:        0.75rem;
 
-  --leading-display: 1.15;
-  --leading-heading: 1.25;
-  --leading-body:    1.6;
+  --leading-display: 1.1;
+  --leading-heading: 1.2;
+  --leading-body:    1.65;
   --leading-tight:   1.35;
 
-  --tracking-display: -0.03em;
-  --tracking-heading: -0.02em;
+  --tracking-display: -0.035em;
+  --tracking-heading: -0.025em;
   --tracking-body:    0em;
-  --tracking-wide:    0.05em;
+  --tracking-wide:    0.04em;
 
-  /* Netra surface system */
-  --surface: #F5F6FC;
-  --surface-elevated: #EDEFFE;
+  /* Netra surface system — clear depth hierarchy */
+  --surface: #F3F4FB;
+  --surface-elevated: #EAECFE;
   --nav: #FFFFFF;
 
   /* Chart colors — Netra indigo spectrum */
@@ -105,55 +110,62 @@
   --chart-4: #B3BAFC;
   --chart-5: #3340B2;
 
-  /* Shadows */
-  --shadow-xs: 0 1px 2px rgba(91, 108, 246, 0.04);
-  --shadow-sm: 0 1px 3px rgba(91, 108, 246, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 12px rgba(91, 108, 246, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 8px 24px rgba(91, 108, 246, 0.10), 0 4px 8px rgba(0, 0, 0, 0.04);
-  --shadow-xl: 0 16px 48px rgba(91, 108, 246, 0.12), 0 8px 16px rgba(0, 0, 0, 0.04);
-  --shadow-glow: 0 0 0 1px rgba(91, 108, 246, 0.08), 0 4px 16px rgba(91, 108, 246, 0.12);
+  /* Premium layered shadows — indigo-tinted */
+  --shadow-xs: 0 1px 2px rgba(91, 108, 246, 0.05);
+  --shadow-sm: 0 1px 2px rgba(91, 108, 246, 0.05), 0 2px 4px rgba(91, 108, 246, 0.04);
+  --shadow-md: 0 4px 6px rgba(91, 108, 246, 0.04), 0 10px 24px rgba(91, 108, 246, 0.07);
+  --shadow-lg: 0 8px 16px rgba(91, 108, 246, 0.06), 0 24px 48px rgba(91, 108, 246, 0.08);
+  --shadow-xl: 0 16px 32px rgba(91, 108, 246, 0.08), 0 32px 64px rgba(91, 108, 246, 0.1);
+  --shadow-glow: 0 0 0 1px rgba(91, 108, 246, 0.1), 0 4px 16px rgba(91, 108, 246, 0.15);
+  --shadow-glow-lg: 0 0 20px rgba(91, 108, 246, 0.25), 0 0 50px rgba(91, 108, 246, 0.1);
 }
 
 .dark {
-  /* Netra Dark Mode */
-  --background: #08091A;
-  --foreground: #EEF0FF;
-  --card: #12132B;
-  --card-foreground: #EEF0FF;
-  --popover: #12132B;
-  --popover-foreground: #EEF0FF;
-  --primary: #6B7AF8;
+  /* Netra Dark Mode — OLED-optimized with blue tint */
+  --background: #050510;
+  --foreground: #ECF0FF;
+  --card: #0E0F24;
+  --card-foreground: #ECF0FF;
+  --popover: #0E0F24;
+  --popover-foreground: #ECF0FF;
+  --primary: #7B8AF9;
   --primary-foreground: #FFFFFF;
-  --secondary: #1C1E3A;
-  --secondary-foreground: #EEF0FF;
-  --muted: #15162E;
-  --muted-foreground: #8B90C0;
-  --accent: #1A1D42;
+  --secondary: #161836;
+  --secondary-foreground: #ECF0FF;
+  --muted: #111228;
+  --muted-foreground: #8A90C4;
+  --accent: #181A3E;
   --accent-foreground: #B3BAFC;
   --destructive: #F87171;
-  --border: #1E2042;
-  --input: #1E2042;
-  --ring: #6B7AF8;
+  --border: #1C1E3E;
+  --input: #1C1E3E;
+  --ring: #7B8AF9;
 
-  /* Netra surface system dark */
-  --surface: #0C0D22;
-  --surface-elevated: #15162E;
-  --nav: #0A0B1E;
+  /* Semantic status colors dark */
+  --success: #34D399;
+  --warning: #FBBF24;
+  --info: #60A5FA;
+
+  /* Netra surface system dark — luminosity-based elevation */
+  --surface: #090A1A;
+  --surface-elevated: #111228;
+  --nav: #080918;
 
   /* Chart colors dark */
-  --chart-1: #6B7AF8;
-  --chart-2: #8D97FA;
-  --chart-3: #4451D4;
+  --chart-1: #7B8AF9;
+  --chart-2: #9DA6FB;
+  --chart-3: #5B6CF6;
   --chart-4: #B3BAFC;
-  --chart-5: #5B6CF6;
+  --chart-5: #4451D4;
 
-  /* Shadows dark */
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.35), 0 4px 8px rgba(0, 0, 0, 0.2);
-  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.4), 0 8px 16px rgba(0, 0, 0, 0.2);
-  --shadow-glow: 0 0 0 1px rgba(107, 122, 248, 0.15), 0 4px 16px rgba(107, 122, 248, 0.08);
+  /* Shadows dark — subtle, luminosity-based */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.45), 0 4px 8px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.5), 0 8px 16px rgba(0, 0, 0, 0.3);
+  --shadow-glow: 0 0 0 1px rgba(123, 138, 249, 0.15), 0 4px 16px rgba(123, 138, 249, 0.1);
+  --shadow-glow-lg: 0 0 20px rgba(123, 138, 249, 0.2), 0 0 50px rgba(123, 138, 249, 0.08);
 }
 
 @layer base {
@@ -261,9 +273,23 @@
 
 /* ── Netra Utility Classes ─────────────────────────────── */
 
+/* ── Premium text gradient ────────────────────────────── */
+.text-gradient {
+  background: linear-gradient(135deg, var(--primary) 0%, #8D97FA 50%, var(--primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.dark .text-gradient {
+  background: linear-gradient(135deg, #7B8AF9 0%, #B3BAFC 50%, #7B8AF9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 /* Branded gradient backgrounds */
 .netra-gradient-hero {
-  background: linear-gradient(135deg, var(--primary) 0%, #3340B2 50%, #222F8F 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, #4451D4 30%, #2D35A8 65%, #0A0B1E 100%);
 }
 .netra-gradient-subtle {
   background: linear-gradient(135deg, rgba(91,108,246,0.06) 0%, rgba(51,64,178,0.03) 100%);
@@ -293,29 +319,37 @@
   background-size: 24px 24px;
 }
 
-/* Rich card styles */
+/* Rich card styles — premium depth system */
 .netra-card {
   background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-xl);
+  border-radius: 1rem;
   box-shadow: var(--shadow-sm);
-  transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+  ring: 1px;
+  --tw-ring-color: rgba(0, 0, 0, 0.04);
+  outline: 1px solid rgba(0, 0, 0, 0.04);
+  outline-offset: -1px;
+  transition: box-shadow 0.3s cubic-bezier(0.25, 0.1, 0.25, 1), outline-color 0.3s ease, transform 0.25s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+.dark .netra-card {
+  outline-color: rgba(255, 255, 255, 0.06);
 }
 .netra-card:hover {
   box-shadow: var(--shadow-md);
-  border-color: rgba(91, 108, 246, 0.2);
+  outline-color: rgba(91, 108, 246, 0.15);
 }
 .dark .netra-card:hover {
-  border-color: rgba(107, 122, 248, 0.15);
+  outline-color: rgba(123, 138, 249, 0.12);
+  box-shadow: var(--shadow-md), 0 0 0 1px rgba(123, 138, 249, 0.08);
 }
 .netra-card-interactive {
   cursor: pointer;
 }
 .netra-card-interactive:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 .netra-card-interactive:active {
   transform: translateY(0);
+  transition-duration: 0.1s;
 }
 
 /* Metric card accent line */
@@ -340,16 +374,36 @@
 
 /* Glow effect for primary buttons */
 .netra-btn-glow {
-  box-shadow: 0 2px 8px rgba(91, 108, 246, 0.25), 0 1px 2px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.2s ease, transform 0.15s ease;
+  box-shadow: 0 2px 8px rgba(91, 108, 246, 0.25), 0 1px 2px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.25s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 .netra-btn-glow:hover {
-  box-shadow: 0 4px 16px rgba(91, 108, 246, 0.35), 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(91, 108, 246, 0.4), 0 2px 6px rgba(0, 0, 0, 0.08);
   transform: translateY(-1px);
 }
 .netra-btn-glow:active {
   transform: translateY(0);
   box-shadow: 0 1px 4px rgba(91, 108, 246, 0.2);
+  transition-duration: 0.1s;
+}
+
+/* Button shimmer effect on hover */
+.netra-btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.netra-btn-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  transition: left 0.5s ease;
+}
+.netra-btn-shimmer:hover::after {
+  left: 100%;
 }
 
 /* Status indicator dots with pulse */
@@ -385,4 +439,72 @@
 .netra-divider {
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent);
+}
+
+/* ── Premium glassmorphism nav ─────────────────────────── */
+.netra-nav-glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(20px) saturate(1.8);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 4px 24px rgba(91, 108, 246, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+.dark .netra-nav-glass {
+  background: rgba(14, 15, 36, 0.65);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(123, 138, 249, 0.06);
+}
+
+/* Navbar scroll shadow intensification */
+.netra-nav-scrolled {
+  box-shadow: 0 8px 32px rgba(91, 108, 246, 0.08), 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+.dark .netra-nav-scrolled {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(123, 138, 249, 0.08);
+}
+
+/* ── Focus glow for inputs ─────────────────────────────── */
+.netra-focus-glow:focus-within {
+  box-shadow: 0 0 0 3px rgba(91, 108, 246, 0.1);
+}
+.dark .netra-focus-glow:focus-within {
+  box-shadow: 0 0 0 3px rgba(123, 138, 249, 0.1);
+}
+
+/* ── Animated gradient for login hero ──────────────────── */
+.netra-gradient-animated {
+  background: linear-gradient(160deg, #050510 0%, #0E1045 25%, #1E2278 50%, #2D35A8 75%, #5B6CF6 100%);
+  background-size: 300% 300%;
+  animation: netra-gradient-shift 15s ease infinite;
+}
+@keyframes netra-gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* ── Floating orb animation ────────────────────────────── */
+@keyframes netra-float {
+  0%, 100% { transform: translate(0, 0); }
+  33% { transform: translate(15px, -10px); }
+  66% { transform: translate(-10px, 15px); }
+}
+.netra-float-slow {
+  animation: netra-float 10s ease-in-out infinite;
+}
+.netra-float-medium {
+  animation: netra-float 8s ease-in-out infinite reverse;
+}
+
+/* ── Reduced motion ────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .netra-gradient-animated {
+    animation: none;
+  }
 }
