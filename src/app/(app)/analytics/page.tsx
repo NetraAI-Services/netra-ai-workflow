@@ -11,7 +11,6 @@ import {
 import { TrendingUp, Eye, Heart, MessageCircle, Loader2, AlertTriangle } from 'lucide-react';
 import type { PlatformId } from '@/types/content';
 
-// Fallback sample data used when Instagram is not connected
 const SAMPLE_ENGAGEMENT = Array.from({ length: 14 }, (_, i) => {
   const d = new Date();
   d.setDate(d.getDate() - (13 - i));
@@ -30,10 +29,10 @@ const SAMPLE_PLATFORM_DATA = [
 ];
 
 const METRIC_STYLES = [
-  { iconBg: 'bg-blue-500/10 dark:bg-blue-400/10', iconColor: 'text-blue-600 dark:text-blue-400' },
-  { iconBg: 'bg-pink-500/10 dark:bg-pink-400/10', iconColor: 'text-pink-600 dark:text-pink-400' },
-  { iconBg: 'bg-emerald-500/10 dark:bg-emerald-400/10', iconColor: 'text-emerald-600 dark:text-emerald-400' },
-  { iconBg: 'bg-violet-500/10 dark:bg-violet-400/10', iconColor: 'text-violet-600 dark:text-violet-400' },
+  { iconBg: 'bg-blue-500/10 dark:bg-blue-500/15', iconColor: 'text-blue-600 dark:text-blue-400', gradient: 'from-blue-500/8 to-transparent' },
+  { iconBg: 'bg-pink-500/10 dark:bg-pink-500/15', iconColor: 'text-pink-600 dark:text-pink-400', gradient: 'from-pink-500/8 to-transparent' },
+  { iconBg: 'bg-emerald-500/10 dark:bg-emerald-500/15', iconColor: 'text-emerald-600 dark:text-emerald-400', gradient: 'from-emerald-500/8 to-transparent' },
+  { iconBg: 'bg-violet-500/10 dark:bg-violet-500/15', iconColor: 'text-violet-600 dark:text-violet-400', gradient: 'from-violet-500/8 to-transparent' },
 ];
 
 interface InsightsData {
@@ -71,7 +70,6 @@ export default function AnalyticsPage() {
       .finally(() => setLoading(false));
   }, [igConnected]);
 
-  // Build chart data from real insights or fallback to sample
   const engagementData = insights
     ? insights.dates.map((dt, i) => ({
         date: new Date(dt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
@@ -80,7 +78,6 @@ export default function AnalyticsPage() {
       }))
     : SAMPLE_ENGAGEMENT;
 
-  // Compute overview metrics from real data if available
   const totalReach = insights
     ? (insights.metrics.reach?.reduce((a, b) => a + b, 0) ?? 0)
     : 0;
@@ -97,16 +94,10 @@ export default function AnalyticsPage() {
     ? ((totalLikes + totalComments) / totalImpressions * 100).toFixed(1)
     : '0.0';
 
-  // Build platform data — use real values for Instagram if available
   const platformData = SAMPLE_PLATFORM_DATA.map((p) => {
     if (p.platform === 'instagram' && insights) {
       const igPosts = posts.filter((post) => post.status === 'published' && post.draft.platforms.includes('instagram')).length;
-      return {
-        ...p,
-        reach: totalReach,
-        engagement: parseFloat(avgEngagement),
-        posts: igPosts,
-      };
+      return { ...p, reach: totalReach, engagement: parseFloat(avgEngagement), posts: igPosts };
     }
     return p;
   });
@@ -135,14 +126,14 @@ export default function AnalyticsPage() {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.15 }}
-          className="netra-card rounded-2xl p-4 border-l-4 border-l-amber-400 dark:border-l-amber-500 border-amber-200 dark:border-amber-800 bg-amber-50/50 dark:bg-amber-950/20"
+          className="netra-card rounded-2xl p-4 border-l-3 border-l-amber-400 dark:border-l-amber-500"
         >
           <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-xl bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <div className="w-8 h-8 rounded-xl bg-amber-500/10 dark:bg-amber-500/15 flex items-center justify-center flex-shrink-0 mt-0.5">
               <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400" />
             </div>
-            <p className="text-sm text-amber-700 dark:text-amber-300">
-              Connect your Instagram account in <strong>Settings → Platforms</strong> to see real analytics data.
+            <p className="text-sm text-muted-foreground">
+              Connect your Instagram account in <strong className="text-foreground">Settings &rarr; Platforms</strong> to see real analytics data.
             </p>
           </div>
         </motion.div>
@@ -156,14 +147,14 @@ export default function AnalyticsPage() {
           const parsed = parseMetricValue(m.value);
           return (
             <StaggerItem key={m.label}>
-              <div className="netra-card netra-metric-card rounded-2xl p-5">
+              <div className={`netra-card netra-metric-card rounded-2xl p-5 bg-gradient-to-br ${style.gradient}`}>
                 <div className="flex items-center justify-between mb-3">
                   <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">{m.label}</p>
                   <div className={`w-9 h-9 rounded-xl ${style.iconBg} flex items-center justify-center`}>
                     <Icon className={`w-[18px] h-[18px] ${style.iconColor}`} />
                   </div>
                 </div>
-                <div className="text-3xl font-bold text-foreground tracking-tight">
+                <div className="text-3xl font-bold text-foreground tracking-tight font-heading">
                   {m.value === '—' ? (
                     <span>—</span>
                   ) : parsed ? (
@@ -194,7 +185,7 @@ export default function AnalyticsPage() {
       <FadeIn delay={0.3}>
         <div className="netra-card rounded-2xl overflow-hidden">
           <div className="p-6 pb-3">
-            <h3 className="text-sm font-semibold text-foreground">Engagement Over Time</h3>
+            <h3 className="text-sm font-semibold text-foreground font-heading">Engagement Over Time</h3>
             <p className="text-xs text-muted-foreground mt-0.5">
               {insights ? 'Last 28 days (Instagram)' : 'Sample data — connect Instagram for real metrics'}
             </p>
@@ -204,20 +195,29 @@ export default function AnalyticsPage() {
               <AreaChart data={engagementData} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
                 <defs>
                   <linearGradient id="reachGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3} />
-                    <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
+                    <stop offset="5%" stopColor="#5B6CF6" stopOpacity={0.25} />
+                    <stop offset="95%" stopColor="#5B6CF6" stopOpacity={0} />
                   </linearGradient>
                   <linearGradient id="likesGradient" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#E1306C" stopOpacity={0.2} />
                     <stop offset="95%" stopColor="#E1306C" stopOpacity={0} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" strokeOpacity={0.5} />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" strokeOpacity={0.4} />
                 <XAxis dataKey="date" tick={{ fontSize: 11, fill: 'var(--muted-foreground)' }} axisLine={false} tickLine={false} />
                 <YAxis tick={{ fontSize: 11, fill: 'var(--muted-foreground)' }} axisLine={false} tickLine={false} />
-                <Tooltip contentStyle={{ background: 'var(--popover)', border: '1px solid var(--border)', borderRadius: 12, fontSize: 12, boxShadow: 'var(--shadow-lg)' }} />
+                <Tooltip
+                  contentStyle={{
+                    background: 'var(--popover)',
+                    border: '1px solid var(--border)',
+                    borderRadius: 12,
+                    fontSize: 12,
+                    boxShadow: 'var(--shadow-lg)',
+                    backdropFilter: 'blur(8px)',
+                  }}
+                />
                 <Legend wrapperStyle={{ fontSize: 12, paddingTop: 8 }} />
-                <Area type="monotone" dataKey="reach" stroke="hsl(var(--primary))" fill="url(#reachGradient)" strokeWidth={2.5} name="Reach" dot={false} animationDuration={1200} />
+                <Area type="monotone" dataKey="reach" stroke="#5B6CF6" fill="url(#reachGradient)" strokeWidth={2.5} name="Reach" dot={false} animationDuration={1200} />
                 <Area type="monotone" dataKey="likes" stroke="#E1306C" fill="url(#likesGradient)" strokeWidth={2.5} name="Likes" dot={false} animationDuration={1200} />
               </AreaChart>
             </ResponsiveContainer>
@@ -230,17 +230,25 @@ export default function AnalyticsPage() {
         <FadeIn delay={0.4}>
           <div className="netra-card rounded-2xl overflow-hidden">
             <div className="p-6 pb-3">
-              <h3 className="text-sm font-semibold text-foreground">Platform Reach</h3>
+              <h3 className="text-sm font-semibold text-foreground font-heading">Platform Reach</h3>
               <p className="text-xs text-muted-foreground mt-0.5">Reach across connected platforms</p>
             </div>
             <div className="px-4 pb-5">
               <ResponsiveContainer width="100%" height={200}>
                 <BarChart data={platformData.map((p) => ({ name: p.platform, reach: p.reach }))} margin={{ left: -20 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" strokeOpacity={0.5} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" strokeOpacity={0.4} />
                   <XAxis dataKey="name" tick={{ fontSize: 11, fill: 'var(--muted-foreground)' }} axisLine={false} tickLine={false} />
                   <YAxis tick={{ fontSize: 11, fill: 'var(--muted-foreground)' }} axisLine={false} tickLine={false} />
-                  <Tooltip contentStyle={{ background: 'var(--popover)', border: '1px solid var(--border)', borderRadius: 12, fontSize: 12, boxShadow: 'var(--shadow-lg)' }} />
-                  <Bar dataKey="reach" fill="hsl(var(--primary))" radius={[6, 6, 0, 0]} name="Reach" animationDuration={1000} />
+                  <Tooltip
+                    contentStyle={{
+                      background: 'var(--popover)',
+                      border: '1px solid var(--border)',
+                      borderRadius: 12,
+                      fontSize: 12,
+                      boxShadow: 'var(--shadow-lg)',
+                    }}
+                  />
+                  <Bar dataKey="reach" fill="#5B6CF6" radius={[6, 6, 0, 0]} name="Reach" animationDuration={1000} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -249,8 +257,8 @@ export default function AnalyticsPage() {
 
         <FadeIn delay={0.5}>
           <div className="netra-card rounded-2xl p-6">
-            <h3 className="text-sm font-semibold text-foreground mb-1">Platform Performance</h3>
-            <p className="text-xs text-muted-foreground mb-4">Engagement rate by platform</p>
+            <h3 className="text-sm font-semibold text-foreground mb-1 font-heading">Platform Performance</h3>
+            <p className="text-xs text-muted-foreground mb-5">Engagement rate by platform</p>
             <div className="flex flex-col gap-4">
               {platformData.map((p, i) => (
                 <motion.div
@@ -268,7 +276,7 @@ export default function AnalyticsPage() {
                       </span>
                       <span className="text-xs font-semibold text-primary">{p.engagement}%</span>
                     </div>
-                    <div className="h-2 bg-secondary rounded-full overflow-hidden">
+                    <div className="h-2 bg-secondary/80 dark:bg-secondary/60 rounded-full overflow-hidden">
                       <motion.div
                         className="h-full rounded-full bg-gradient-to-r from-primary to-netra-400"
                         initial={{ width: 0 }}
@@ -277,7 +285,7 @@ export default function AnalyticsPage() {
                       />
                     </div>
                   </div>
-                  <span className="text-xs text-muted-foreground w-16 text-right font-medium">
+                  <span className="text-xs text-muted-foreground w-16 text-right font-medium tabular-nums">
                     {formatK(p.reach)}
                   </span>
                 </motion.div>

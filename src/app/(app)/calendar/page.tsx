@@ -17,7 +17,7 @@ import type { PlatformId, Post } from '@/types/content';
 const STATUS_DOT: Record<string, string> = {
   scheduled:        'bg-blue-500',
   published:        'bg-emerald-500',
-  draft:            'bg-gray-400',
+  draft:            'bg-gray-400 dark:bg-gray-500',
   failed:           'bg-red-500',
   pending_approval: 'bg-amber-500',
 };
@@ -57,7 +57,7 @@ export default function CalendarPage() {
           <p className="text-body-sm text-muted-foreground mt-1">View and manage your scheduled content.</p>
         </div>
         <Link href="/create">
-          <Button className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2 netra-btn-glow rounded-xl">
+          <Button className="netra-btn-premium netra-btn-shimmer gap-2 rounded-xl cursor-pointer">
             <Sparkles className="w-4 h-4" /> New Post
           </Button>
         </Link>
@@ -72,16 +72,16 @@ export default function CalendarPage() {
               <div className="flex items-center justify-between mb-5">
                 <button
                   onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
-                  className="w-8 h-8 rounded-xl flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-accent/60 transition-colors"
+                  className="w-9 h-9 rounded-xl flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-accent/60 transition-all duration-200 cursor-pointer"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
-                <h2 className="text-sm font-bold text-foreground tracking-wide">
+                <h2 className="text-sm font-bold text-foreground tracking-wide font-heading">
                   {format(currentMonth, 'MMMM yyyy')}
                 </h2>
                 <button
                   onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
-                  className="w-8 h-8 rounded-xl flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-accent/60 transition-colors"
+                  className="w-9 h-9 rounded-xl flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-accent/60 transition-all duration-200 cursor-pointer"
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
@@ -94,7 +94,7 @@ export default function CalendarPage() {
                 ))}
               </div>
 
-              {/* Days - wrapped in AnimatePresence for month crossfade */}
+              {/* Days */}
               <AnimatePresence mode="wait">
                 <motion.div
                   key={format(currentMonth, 'yyyy-MM')}
@@ -102,7 +102,7 @@ export default function CalendarPage() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -6 }}
                   transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
-                  className="grid grid-cols-7 gap-px bg-border/50 rounded-xl overflow-hidden"
+                  className="grid grid-cols-7 gap-px bg-border/30 dark:bg-border/20 rounded-xl overflow-hidden"
                 >
                   {days.map((day) => {
                     const dayPosts = postsOnDay(day);
@@ -116,16 +116,16 @@ export default function CalendarPage() {
                         key={day.toISOString()}
                         onClick={() => setSelectedDay(isSameDay(day, selectedDay!) ? null : day)}
                         className={cn(
-                          'group bg-card min-h-[76px] p-2 text-left transition-all relative',
-                          'hover:bg-accent/40',
-                          !inMonth && 'opacity-30',
-                          selected && 'bg-primary/10 dark:bg-primary/10',
-                          today && !selected && 'ring-1 ring-inset ring-primary/60',
-                          selected && 'ring-1 ring-inset ring-primary/50'
+                          'group bg-card min-h-[76px] p-2 text-left transition-all duration-200 relative cursor-pointer',
+                          'hover:bg-accent/30 dark:hover:bg-accent/20',
+                          !inMonth && 'opacity-25',
+                          selected && 'bg-primary/8 dark:bg-primary/10',
+                          today && !selected && 'ring-1 ring-inset ring-primary/50',
+                          selected && 'ring-1 ring-inset ring-primary/40'
                         )}
                       >
                         <span className={cn(
-                          'text-xs font-semibold w-6 h-6 rounded-full flex items-center justify-center',
+                          'text-xs font-semibold w-6 h-6 rounded-full flex items-center justify-center transition-colors',
                           today ? 'bg-primary text-primary-foreground shadow-sm' : 'text-foreground'
                         )}>
                           {format(day, 'd')}
@@ -144,10 +144,9 @@ export default function CalendarPage() {
                           )}
                         </div>
 
-                        {/* Subtle "+" icon on hover for empty day cells */}
                         {isEmpty && inMonth && (
                           <span className="absolute bottom-1.5 right-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                            <Plus className="w-3.5 h-3.5 text-muted-foreground/50" />
+                            <Plus className="w-3.5 h-3.5 text-muted-foreground/40" />
                           </span>
                         )}
                       </button>
@@ -171,17 +170,17 @@ export default function CalendarPage() {
                   exit={{ opacity: 0, x: -16 }}
                   transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
                 >
-                  <p className="font-bold text-foreground text-sm mb-4">
+                  <p className="font-bold text-foreground text-sm mb-4 font-heading">
                     {format(selectedDay, 'EEEE, MMM d')}
                   </p>
                   {selectedPosts.length === 0 ? (
                     <div className="text-center py-10">
-                      <div className="w-12 h-12 rounded-2xl bg-muted/60 flex items-center justify-center mx-auto mb-3">
+                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-muted/60 to-muted/30 flex items-center justify-center mx-auto mb-3">
                         <CalendarIcon className="w-6 h-6 text-muted-foreground/40" />
                       </div>
                       <p className="text-sm text-muted-foreground">No posts on this day.</p>
                       <Link href="/create">
-                        <Button size="sm" variant="outline" className="mt-3 text-xs font-semibold rounded-xl">+ Create Post</Button>
+                        <Button size="sm" variant="outline" className="mt-3 text-xs font-semibold rounded-xl cursor-pointer">+ Create Post</Button>
                       </Link>
                     </div>
                   ) : (
@@ -192,7 +191,7 @@ export default function CalendarPage() {
                           initial={{ opacity: 0, y: 8 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.25, delay: i * 0.05, ease: [0.32, 0.72, 0, 1] }}
-                          className="p-3 rounded-xl border border-border bg-surface/50 hover:bg-surface transition-colors"
+                          className="p-3 rounded-xl border border-border/60 dark:border-border/40 bg-surface/50 dark:bg-surface-elevated/30 hover:bg-surface hover:border-primary/20 transition-all duration-200"
                         >
                           <div className="flex items-center gap-2 mb-1.5">
                             {post.draft.platforms.map((p) => (
@@ -222,7 +221,7 @@ export default function CalendarPage() {
                   transition={{ duration: 0.2 }}
                   className="text-center py-14"
                 >
-                  <div className="w-12 h-12 rounded-2xl bg-muted/60 flex items-center justify-center mx-auto mb-3">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-muted/60 to-muted/30 flex items-center justify-center mx-auto mb-3">
                     <CalendarIcon className="w-6 h-6 text-muted-foreground/40" />
                   </div>
                   <p className="text-sm text-muted-foreground">Select a day to see posts.</p>

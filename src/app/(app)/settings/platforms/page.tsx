@@ -2,7 +2,6 @@
 import { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSettingsStore } from '@/store/useSettingsStore';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { PlatformIcon } from '@/components/shared/PlatformIcon';
 import { CheckCircle2, XCircle, HelpCircle } from 'lucide-react';
@@ -18,7 +17,6 @@ function PlatformsContent() {
   const [loading, setLoading] = useState<PlatformId | null>(null);
   const [showHowTo, setShowHowTo] = useState(false);
 
-  // Check for OAuth callback messages
   useEffect(() => {
     const error = searchParams.get('error');
     const connected = searchParams.get('connected');
@@ -29,15 +27,13 @@ function PlatformsContent() {
     } else if (connected && success) {
       const platformId = connected as PlatformId;
       toast.success(`${platformId} connected successfully!`);
-      // Update store to reflect connected state
       setPlatformConnected(platformId, {
         handle: `@${platformId}_account`,
         accountId: `${platformId}_${Date.now()}`,
-        tokenExpiry: Date.now() + 7 * 24 * 60 * 60 * 1000, // 7 days default
+        tokenExpiry: Date.now() + 7 * 24 * 60 * 60 * 1000,
       });
     }
 
-    // Clean up URL params
     if (error || connected || success) {
       router.replace('/settings/platforms');
     }
@@ -46,9 +42,7 @@ function PlatformsContent() {
   async function connect(id: PlatformId) {
     setLoading(id);
     try {
-      // Get a temporary user ID (in real app, this would come from auth context)
       const userId = `user_${Date.now()}`;
-
       const res = await fetch(`/api/platforms/${id}/auth`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -61,11 +55,7 @@ function PlatformsContent() {
       }
 
       const { authUrl } = await res.json();
-      if (!authUrl) {
-        throw new Error('No auth URL provided');
-      }
-
-      // Redirect to platform OAuth page
+      if (!authUrl) throw new Error('No auth URL provided');
       window.location.href = authUrl;
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Connection failed';
@@ -83,82 +73,77 @@ function PlatformsContent() {
     <>
       <HowToConnectModal open={showHowTo} onOpenChange={setShowHowTo} />
       <div className="space-y-6">
-        <Card className="border-border shadow-sm">
-          <CardHeader>
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex-1">
-                <CardTitle className="text-base">Connected Platforms</CardTitle>
-                <CardDescription>
-                  Connect your social accounts to enable direct publishing and analytics.
-                </CardDescription>
-              </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setShowHowTo(true)}
-                className="text-muted-foreground hover:text-primary h-8 w-8 p-0 flex-shrink-0"
-                title="How to connect"
-              >
-                <HelpCircle className="h-5 w-5" />
-              </Button>
+        <div className="netra-card rounded-2xl p-6">
+          <div className="flex items-center justify-between gap-4 mb-5">
+            <div>
+              <h2 className="text-card-title text-foreground font-heading">Connected Platforms</h2>
+              <p className="text-sm text-muted-foreground mt-1">Connect your social accounts to enable direct publishing and analytics.</p>
             </div>
-          </CardHeader>
-        <CardContent className="space-y-3">
-          {PLATFORMS.map(({ id, label, color }) => {
-            const conn = platforms[id];
-            return (
-              <div
-                key={id}
-                className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card hover:border-primary/30 transition-colors"
-              >
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowHowTo(true)}
+              className="text-muted-foreground hover:text-primary h-8 w-8 p-0 flex-shrink-0 rounded-xl cursor-pointer"
+              title="How to connect"
+            >
+              <HelpCircle className="h-5 w-5" />
+            </Button>
+          </div>
+          <div className="space-y-3">
+            {PLATFORMS.map(({ id, label, color }) => {
+              const conn = platforms[id];
+              return (
                 <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                  style={{ background: `${color}18` }}
+                  key={id}
+                  className="flex items-center gap-4 p-4 rounded-xl border border-border/60 dark:border-border/40 bg-surface/30 dark:bg-surface/20 hover:border-primary/25 transition-all duration-200"
                 >
-                  <PlatformIcon platform={id} size={22} colored />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="font-medium text-sm text-foreground">{label}</p>
+                  <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                    style={{ background: `${color}15` }}
+                  >
+                    <PlatformIcon platform={id} size={22} colored />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-sm text-foreground">{label}</p>
+                    {conn.connected ? (
+                      <p className="text-xs text-emerald-600 dark:text-emerald-400 flex items-center gap-1 mt-0.5">
+                        <CheckCircle2 className="w-3 h-3" /> {conn.handle || 'Connected'}
+                      </p>
+                    ) : (
+                      <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
+                        <XCircle className="w-3 h-3" /> Not connected
+                      </p>
+                    )}
+                  </div>
                   {conn.connected ? (
-                    <p className="text-xs text-green-600 dark:text-green-400 flex items-center gap-1 mt-0.5">
-                      <CheckCircle2 className="w-3 h-3" /> {conn.handle || 'Connected'}
-                    </p>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => disconnect(id)}
+                      className="text-destructive border-destructive/30 hover:bg-destructive/10 hover:border-destructive rounded-xl cursor-pointer"
+                    >
+                      Disconnect
+                    </Button>
                   ) : (
-                    <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
-                      <XCircle className="w-3 h-3" /> Not connected
-                    </p>
+                    <Button
+                      size="sm"
+                      onClick={() => connect(id)}
+                      className="netra-btn-premium rounded-xl cursor-pointer text-xs"
+                      disabled={loading === id}
+                    >
+                      {loading === id ? 'Connecting...' : 'Connect'}
+                    </Button>
                   )}
                 </div>
-                {conn.connected ? (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => disconnect(id)}
-                    className="text-destructive border-destructive/30 hover:bg-destructive/10 hover:border-destructive"
-                  >
-                    Disconnect
-                  </Button>
-                ) : (
-                  <Button
-                    size="sm"
-                    onClick={() => connect(id)}
-                    className="bg-primary hover:bg-primary/90 text-primary-foreground"
-                    disabled={loading === id}
-                  >
-                    {loading === id ? 'Connecting...' : 'Connect'}
-                  </Button>
-                )}
-              </div>
-            );
-          })}
-        </CardContent>
-      </Card>
+              );
+            })}
+          </div>
+        </div>
 
-      <Card className="border-border shadow-sm">
-        <CardContent className="p-4 text-sm text-muted-foreground">
-          <p className="font-medium text-foreground mb-1">OAuth Setup</p>
-          To enable real OAuth connections, add your platform app credentials to <code className="font-mono text-xs bg-secondary px-1 py-0.5 rounded">.env.local</code>:
-          <pre className="mt-2 p-3 rounded-lg bg-secondary text-xs font-mono overflow-x-auto">
+        <div className="netra-card rounded-2xl p-5 text-sm text-muted-foreground">
+          <p className="font-medium text-foreground mb-1.5 font-heading">OAuth Setup</p>
+          To enable real OAuth connections, add your platform app credentials to <code className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded-lg">.env.local</code>:
+          <pre className="mt-2 p-3 rounded-xl bg-secondary/80 dark:bg-secondary/50 text-xs font-mono overflow-x-auto border border-border/50">
 {`INSTAGRAM_CLIENT_ID=...
 INSTAGRAM_CLIENT_SECRET=...
 TIKTOK_CLIENT_KEY=...
@@ -168,8 +153,7 @@ YOUTUBE_CLIENT_SECRET=...
 TWITTER_CLIENT_ID=...
 TWITTER_CLIENT_SECRET=...`}
           </pre>
-        </CardContent>
-      </Card>
+        </div>
       </div>
     </>
   );

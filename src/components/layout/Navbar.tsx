@@ -13,18 +13,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Menu, X, LogOut, User, Settings } from 'lucide-react';
+import {
+  Menu, X, LogOut, User, Settings,
+  LayoutDashboard, PenSquare, Calendar, FileText,
+  Lightbulb, BarChart2, MessageCircle,
+} from 'lucide-react';
 import { useAppStore } from '@/store/useAppStore';
 import { cn } from '@/lib/utils';
 
 const NAV_ITEMS = [
-  { href: '/dashboard',  label: 'Dashboard' },
-  { href: '/create',     label: 'Create' },
-  { href: '/calendar',   label: 'Calendar' },
-  { href: '/posts',      label: 'Posts' },
-  { href: '/ideas',      label: 'Ideas' },
-  { href: '/analytics',  label: 'Analytics' },
-  { href: '/engagement', label: 'Engagement' },
+  { href: '/dashboard',  label: 'Dashboard',  icon: LayoutDashboard },
+  { href: '/create',     label: 'Create',     icon: PenSquare },
+  { href: '/calendar',   label: 'Calendar',   icon: Calendar },
+  { href: '/posts',      label: 'Posts',       icon: FileText },
+  { href: '/ideas',      label: 'Ideas',       icon: Lightbulb },
+  { href: '/analytics',  label: 'Analytics',   icon: BarChart2 },
+  { href: '/engagement', label: 'Engagement',  icon: MessageCircle },
 ];
 
 export function Navbar() {
@@ -42,24 +46,25 @@ export function Navbar() {
     <>
       <header
         className={cn(
-          'fixed top-3 left-4 right-4 z-50 rounded-2xl transition-shadow duration-300',
+          'fixed top-3 left-4 right-4 z-50 rounded-2xl transition-all duration-300',
           'netra-nav-glass',
           scrolled && 'netra-nav-scrolled'
         )}
       >
-        <div className="max-w-screen-xl mx-auto px-5 lg:px-6 h-14 flex items-center gap-6">
+        <div className="max-w-screen-xl mx-auto pl-3 pr-5 lg:pl-4 lg:pr-6 h-14 flex items-center gap-5">
           <NetraLogo className="flex-shrink-0" />
 
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-0.5 flex-1">
             {NAV_ITEMS.map((item) => {
               const active = pathname === item.href || pathname.startsWith(item.href + '/');
+              const Icon = item.icon;
               return (
                 <Link
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    'relative px-3.5 py-1.5 rounded-xl text-[13px] font-semibold tracking-[-0.01em] transition-colors duration-200',
+                    'relative px-3.5 py-1.5 rounded-xl text-[13px] font-semibold tracking-[-0.01em] transition-colors duration-200 flex items-center gap-1.5',
                     active
                       ? 'text-primary'
                       : 'text-muted-foreground hover:text-foreground'
@@ -72,6 +77,7 @@ export function Navbar() {
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
+                  <Icon className="relative z-10 w-3.5 h-3.5" />
                   <span className="relative z-10">{item.label}</span>
                 </Link>
               );
@@ -86,18 +92,18 @@ export function Navbar() {
 
             {/* User menu */}
             <DropdownMenu>
-              <DropdownMenuTrigger className="hidden md:flex w-8 h-8 rounded-full items-center justify-center bg-gradient-to-br from-primary to-netra-700 text-white text-xs font-bold outline-none focus-visible:ring-2 focus-visible:ring-ring ring-offset-2 ring-offset-background transition-all duration-200 hover:shadow-[0_0_16px_rgba(91,108,246,0.3)] hover:scale-105">
+              <DropdownMenuTrigger className="hidden md:flex w-8 h-8 rounded-full items-center justify-center bg-gradient-to-br from-primary to-netra-700 text-white text-xs font-bold outline-none focus-visible:ring-2 focus-visible:ring-ring ring-offset-2 ring-offset-background transition-all duration-300 hover:shadow-[0_0_20px_rgba(91,108,246,0.35)] hover:scale-105 cursor-pointer">
                 N
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-44">
-                <DropdownMenuItem render={<Link href="/settings/brand" />} className="flex items-center gap-2">
+              <DropdownMenuContent align="end" className="w-44 rounded-xl">
+                <DropdownMenuItem render={<Link href="/settings/brand" />} className="flex items-center gap-2 cursor-pointer rounded-lg">
                   <User className="w-4 h-4" /> Profile
                 </DropdownMenuItem>
-                <DropdownMenuItem render={<Link href="/settings/brand" />} className="flex items-center gap-2">
+                <DropdownMenuItem render={<Link href="/settings/brand" />} className="flex items-center gap-2 cursor-pointer rounded-lg">
                   <Settings className="w-4 h-4" /> Settings
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem render={<Link href="/login" />} className="flex items-center gap-2 text-destructive">
+                <DropdownMenuItem render={<Link href="/login" />} className="flex items-center gap-2 text-destructive cursor-pointer rounded-lg">
                   <LogOut className="w-4 h-4" /> Sign out
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -107,7 +113,7 @@ export function Navbar() {
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden rounded-xl w-8 h-8"
+              className="md:hidden rounded-xl w-8 h-8 cursor-pointer"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -125,18 +131,19 @@ export function Navbar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="absolute inset-0 bg-black/30 backdrop-blur-sm"
+              className="absolute inset-0 bg-black/40 backdrop-blur-sm"
               onClick={() => setMobileMenuOpen(false)}
             />
             <motion.nav
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
+              initial={{ opacity: 0, y: -12, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -8, scale: 0.98 }}
               transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
-              className="absolute top-[4.5rem] left-4 right-4 bg-card/95 backdrop-blur-xl rounded-2xl border border-border/50 p-2 flex flex-col gap-0.5 shadow-xl"
+              className="absolute top-[4.5rem] left-4 right-4 netra-card-glass p-2 flex flex-col gap-0.5 shadow-xl"
             >
               {NAV_ITEMS.map((item, i) => {
                 const active = pathname === item.href || pathname.startsWith(item.href + '/');
+                const Icon = item.icon;
                 return (
                   <motion.div
                     key={item.href}
@@ -148,12 +155,13 @@ export function Navbar() {
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
                       className={cn(
-                        'block px-4 py-2.5 rounded-xl text-sm font-semibold tracking-[-0.01em] transition-colors',
+                        'flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-semibold tracking-[-0.01em] transition-colors cursor-pointer',
                         active
                           ? 'bg-primary/10 text-primary'
                           : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
                       )}
                     >
+                      <Icon className="w-4 h-4" />
                       {item.label}
                     </Link>
                   </motion.div>
@@ -163,15 +171,17 @@ export function Navbar() {
               <Link
                 href="/settings/brand"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-4 py-2.5 rounded-xl text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50"
+                className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 cursor-pointer"
               >
+                <Settings className="w-4 h-4" />
                 Settings
               </Link>
               <Link
                 href="/login"
                 onClick={() => setMobileMenuOpen(false)}
-                className="px-4 py-2.5 rounded-xl text-sm font-medium text-destructive hover:bg-destructive/10"
+                className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-destructive hover:bg-destructive/10 cursor-pointer"
               >
+                <LogOut className="w-4 h-4" />
                 Sign out
               </Link>
             </motion.nav>

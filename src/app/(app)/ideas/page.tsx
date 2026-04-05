@@ -18,9 +18,9 @@ import type { PlatformId } from '@/types/content';
 import type { IdeaPriority } from '@/types/ideas';
 
 const PRIORITY_STYLES: Record<IdeaPriority, string> = {
-  low:    'bg-gray-50 text-gray-600 ring-1 ring-gray-200/60 dark:bg-gray-900/40 dark:text-gray-400 dark:ring-gray-700/40',
-  medium: 'bg-amber-50 text-amber-700 ring-1 ring-amber-200/60 dark:bg-amber-950/40 dark:text-amber-300 dark:ring-amber-800/40',
-  high:   'bg-red-50 text-red-700 ring-1 ring-red-200/60 dark:bg-red-950/40 dark:text-red-300 dark:ring-red-800/40',
+  low:    'bg-gray-500/10 text-gray-600 ring-1 ring-gray-500/20 dark:bg-gray-500/15 dark:text-gray-400 dark:ring-gray-400/20',
+  medium: 'bg-amber-500/10 text-amber-600 ring-1 ring-amber-500/20 dark:bg-amber-500/15 dark:text-amber-400 dark:ring-amber-400/20',
+  high:   'bg-red-500/10 text-red-600 ring-1 ring-red-500/20 dark:bg-red-500/15 dark:text-red-400 dark:ring-red-400/20',
 };
 
 export default function IdeasPage() {
@@ -78,10 +78,10 @@ export default function IdeasPage() {
           <p className="text-body-sm text-muted-foreground mt-1">Organise content ideas by pillar. Drag to move between columns.</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={() => setAddPillarOpen(true)} className="gap-1.5 text-xs font-semibold rounded-xl">
+          <Button variant="outline" onClick={() => setAddPillarOpen(true)} className="gap-1.5 text-xs font-semibold rounded-xl cursor-pointer hover:border-primary/40">
             <Plus className="w-3.5 h-3.5" /> Add Pillar
           </Button>
-          <Button onClick={() => setAddIdeaOpen(true)} className="bg-primary hover:bg-primary/90 text-primary-foreground gap-1.5 text-xs font-semibold netra-btn-glow rounded-xl">
+          <Button onClick={() => setAddIdeaOpen(true)} className="netra-btn-premium netra-btn-shimmer gap-1.5 text-xs font-semibold rounded-xl cursor-pointer">
             <Lightbulb className="w-3.5 h-3.5" /> Add Idea
           </Button>
         </div>
@@ -100,8 +100,8 @@ export default function IdeasPage() {
             >
               {/* Column header */}
               <div
-                className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-white font-semibold text-sm shadow-md"
-                style={{ background: `linear-gradient(135deg, ${pillar.color}, ${pillar.color}cc)` }}
+                className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-white font-semibold text-sm shadow-lg font-heading"
+                style={{ background: `linear-gradient(135deg, ${pillar.color}, ${pillar.color}bb)` }}
               >
                 <span className="flex-1 truncate">{pillar.name}</span>
                 <span className="text-[11px] font-bold bg-white/20 rounded-full px-2 py-0.5 tabular-nums">
@@ -110,14 +110,14 @@ export default function IdeasPage() {
               </div>
 
               {/* Cards */}
-              <div className="bg-surface/80 dark:bg-surface rounded-b-xl min-h-[220px] p-2 flex flex-col gap-2 border border-border border-t-0 mt-0.5">
+              <div className="bg-surface/60 dark:bg-surface/40 rounded-b-xl min-h-[220px] p-2 flex flex-col gap-2 border border-border/50 dark:border-border/30 border-t-0 mt-0.5">
                 <StaggerContainer className="flex flex-col gap-2">
                   {pillarIdeas.map((idea) => (
                     <StaggerItem key={idea.id}>
                       <div
                         draggable
                         onDragStart={() => setDraggedIdeaId(idea.id)}
-                        className="netra-card netra-card-interactive p-3 cursor-grab active:cursor-grabbing border-l-3 hover:-translate-y-0.5 transition-transform duration-200"
+                        className="netra-card netra-card-interactive p-3 cursor-grab active:cursor-grabbing border-l-3 hover:-translate-y-0.5 transition-all duration-200"
                         style={{ borderLeftColor: pillar.color }}
                       >
                         <div className="flex items-start justify-between gap-2 mb-1.5">
@@ -134,16 +134,16 @@ export default function IdeasPage() {
                             {idea.platforms.map((p) => <PlatformIcon key={p} platform={p} size={14} />)}
                           </div>
                         )}
-                        <div className="flex items-center gap-1 mt-2 pt-2 border-t border-border/50">
+                        <div className="flex items-center gap-1 mt-2 pt-2 border-t border-border/40 dark:border-border/30">
                           <button
                             onClick={() => convertToPost(idea.id)}
-                            className="flex items-center gap-1 text-[11px] text-primary hover:text-primary/80 font-semibold transition-colors"
+                            className="flex items-center gap-1 text-[11px] text-primary hover:text-primary/80 font-semibold transition-colors cursor-pointer"
                           >
                             <Sparkles className="w-3 h-3" /> Convert to Post <ArrowRight className="w-3 h-3" />
                           </button>
                           <button
                             onClick={() => deleteIdea(idea.id)}
-                            className="ml-auto p-1 rounded-xl hover:bg-destructive/10 text-muted-foreground/30 hover:text-destructive transition-colors"
+                            className="ml-auto p-1 rounded-xl hover:bg-destructive/10 text-muted-foreground/30 hover:text-destructive transition-colors cursor-pointer"
                           >
                             <Trash2 className="w-3 h-3" />
                           </button>
@@ -155,7 +155,7 @@ export default function IdeasPage() {
 
                 <button
                   onClick={() => { setForm((f) => ({ ...f, pillarId: pillar.id })); setAddIdeaOpen(true); }}
-                  className="text-xs text-muted-foreground hover:text-primary flex items-center justify-center gap-1.5 px-2 py-3 rounded-xl border border-dashed border-border hover:border-primary transition-colors font-medium"
+                  className="text-xs text-muted-foreground hover:text-primary flex items-center justify-center gap-1.5 px-2 py-3 rounded-xl border border-dashed border-border/60 dark:border-border/40 hover:border-primary/50 transition-all duration-200 font-medium cursor-pointer"
                 >
                   <Plus className="w-3.5 h-3.5" /> Add idea
                 </button>
@@ -167,10 +167,14 @@ export default function IdeasPage() {
         {pillars.length === 0 && (
           <div className="flex-1 flex items-center justify-center py-20 text-center">
             <div>
-              <div className="w-14 h-14 rounded-2xl bg-muted/60 flex items-center justify-center mx-auto mb-3">
-                <Lightbulb className="w-7 h-7 text-muted-foreground/40" />
-              </div>
-              <p className="font-semibold text-foreground">No pillars yet</p>
+              <motion.div
+                animate={{ y: [0, -6, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                className="w-16 h-16 rounded-2xl bg-gradient-to-br from-muted/60 to-muted/30 flex items-center justify-center mx-auto mb-3"
+              >
+                <Lightbulb className="w-8 h-8 text-muted-foreground/40" />
+              </motion.div>
+              <p className="font-semibold text-foreground text-lg">No pillars yet</p>
               <p className="text-sm text-muted-foreground mt-1">Add a content pillar to start organising your ideas.</p>
             </div>
           </div>
@@ -179,14 +183,14 @@ export default function IdeasPage() {
 
       {/* Add Idea Dialog */}
       <Dialog open={addIdeaOpen} onOpenChange={setAddIdeaOpen}>
-        <DialogContent className="sm:max-w-md overflow-hidden">
+        <DialogContent className="sm:max-w-md overflow-hidden rounded-2xl">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
           >
             <DialogHeader>
-              <DialogTitle>Add Idea</DialogTitle>
+              <DialogTitle className="font-heading">Add Idea</DialogTitle>
             </DialogHeader>
             <div className="space-y-3 py-2">
               <div className="space-y-1.5">
@@ -194,8 +198,8 @@ export default function IdeasPage() {
                 <div className="flex flex-wrap gap-2">
                   {pillars.map((p) => (
                     <button key={p.id} onClick={() => setForm((f) => ({ ...f, pillarId: p.id }))}
-                      className={cn('px-2.5 py-1 rounded-xl text-xs font-semibold border transition-all',
-                        form.pillarId === p.id ? 'text-white border-transparent shadow-sm' : 'bg-card text-muted-foreground border-border')}
+                      className={cn('px-2.5 py-1 rounded-xl text-xs font-semibold border transition-all cursor-pointer',
+                        form.pillarId === p.id ? 'text-white border-transparent shadow-sm' : 'bg-card text-muted-foreground border-border hover:border-primary/40')}
                       style={form.pillarId === p.id ? { background: p.color, borderColor: p.color } : {}}>
                       {p.name}
                     </button>
@@ -204,18 +208,18 @@ export default function IdeasPage() {
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="idea-title">Title *</Label>
-                <Input id="idea-title" value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} placeholder="Idea title..." />
+                <Input id="idea-title" value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} placeholder="Idea title..." className="rounded-xl" />
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="idea-desc">Description</Label>
-                <Textarea id="idea-desc" value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} rows={2} className="resize-none" placeholder="Optional details..." />
+                <Textarea id="idea-desc" value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} rows={2} className="resize-none rounded-xl" placeholder="Optional details..." />
               </div>
               <div className="space-y-1.5">
                 <Label>Platforms</Label>
                 <div className="flex gap-2">
                   {PLATFORMS.map(({ id }) => (
                     <button key={id} onClick={() => setForm((f) => ({ ...f, platforms: f.platforms.includes(id) ? f.platforms.filter((p) => p !== id) : [...f.platforms, id] }))}
-                      className={cn('p-1.5 rounded-xl border transition-all', form.platforms.includes(id) ? 'border-primary bg-primary/10 shadow-sm' : 'border-border bg-card')}>
+                      className={cn('p-1.5 rounded-xl border transition-all cursor-pointer', form.platforms.includes(id) ? 'border-primary bg-primary/10 shadow-sm' : 'border-border bg-card hover:border-primary/40')}>
                       <PlatformIcon platform={id} size={16} />
                     </button>
                   ))}
@@ -226,8 +230,8 @@ export default function IdeasPage() {
                 <div className="flex gap-2">
                   {(['low', 'medium', 'high'] as IdeaPriority[]).map((p) => (
                     <button key={p} onClick={() => setForm((f) => ({ ...f, priority: p }))}
-                      className={cn('px-3 py-1.5 rounded-xl text-xs font-semibold border capitalize transition-all',
-                        form.priority === p ? 'bg-primary text-primary-foreground border-primary shadow-sm' : 'bg-card text-muted-foreground border-border')}>
+                      className={cn('px-3 py-1.5 rounded-xl text-xs font-semibold border capitalize transition-all cursor-pointer',
+                        form.priority === p ? 'bg-primary text-primary-foreground border-primary shadow-sm' : 'bg-card text-muted-foreground border-border hover:border-primary/40')}>
                       {p}
                     </button>
                   ))}
@@ -235,8 +239,8 @@ export default function IdeasPage() {
               </div>
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setAddIdeaOpen(false)} className="rounded-xl">Cancel</Button>
-              <Button onClick={submitIdea} disabled={!form.title.trim()} className="bg-primary hover:bg-primary/90 text-primary-foreground netra-btn-glow rounded-xl">Add Idea</Button>
+              <Button variant="outline" onClick={() => setAddIdeaOpen(false)} className="rounded-xl cursor-pointer">Cancel</Button>
+              <Button onClick={submitIdea} disabled={!form.title.trim()} className="netra-btn-premium rounded-xl cursor-pointer">Add Idea</Button>
             </DialogFooter>
           </motion.div>
         </DialogContent>
@@ -244,23 +248,23 @@ export default function IdeasPage() {
 
       {/* Add Pillar Dialog */}
       <Dialog open={addPillarOpen} onOpenChange={setAddPillarOpen}>
-        <DialogContent className="sm:max-w-sm overflow-hidden">
+        <DialogContent className="sm:max-w-sm overflow-hidden rounded-2xl">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
           >
-            <DialogHeader><DialogTitle>Add Content Pillar</DialogTitle></DialogHeader>
+            <DialogHeader><DialogTitle className="font-heading">Add Content Pillar</DialogTitle></DialogHeader>
             <div className="py-2 space-y-3">
               <div className="space-y-1.5">
                 <Label htmlFor="pillar-name">Pillar Name</Label>
-                <Input id="pillar-name" value={newPillarName} onChange={(e) => setNewPillarName(e.target.value)} placeholder="e.g. Product Updates" />
+                <Input id="pillar-name" value={newPillarName} onChange={(e) => setNewPillarName(e.target.value)} placeholder="e.g. Product Updates" className="rounded-xl" />
               </div>
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setAddPillarOpen(false)} className="rounded-xl">Cancel</Button>
+              <Button variant="outline" onClick={() => setAddPillarOpen(false)} className="rounded-xl cursor-pointer">Cancel</Button>
               <Button onClick={() => { addPillar(newPillarName); setNewPillarName(''); setAddPillarOpen(false); }}
-                disabled={!newPillarName.trim()} className="bg-primary hover:bg-primary/90 text-primary-foreground netra-btn-glow rounded-xl">
+                disabled={!newPillarName.trim()} className="netra-btn-premium rounded-xl cursor-pointer">
                 Add Pillar
               </Button>
             </DialogFooter>

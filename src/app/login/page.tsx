@@ -9,9 +9,15 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, ArrowRight, Zap, BarChart2, Calendar } from 'lucide-react';
 
 const ease = [0.25, 0.1, 0.25, 1] as const;
+
+const FEATURES = [
+  { icon: Zap, label: 'AI Content Generation', desc: 'Create stunning posts in seconds' },
+  { icon: Calendar, label: 'Smart Scheduling', desc: 'Publish at the perfect time' },
+  { icon: BarChart2, label: 'Deep Analytics', desc: 'Track what performs best' },
+];
 
 export default function LoginPage() {
   const router = useRouter();
@@ -56,34 +62,37 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex bg-background">
-      {/* Left branded panel — animated gradient */}
-      <div className="hidden lg:flex lg:w-[50%] relative overflow-hidden netra-gradient-animated">
-        {/* Dot grid overlay */}
-        <div className="absolute inset-0 opacity-[0.04]" style={{
+      {/* Left branded panel */}
+      <div className="hidden lg:flex lg:w-[52%] relative overflow-hidden netra-gradient-animated">
+        {/* Noise texture */}
+        <div className="absolute inset-0 netra-noise" />
+
+        {/* Dot grid */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{
           backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)',
           backgroundSize: '32px 32px',
         }} />
 
         {/* Animated gradient orbs */}
         <motion.div
-          animate={{ x: [0, 20, 0], y: [0, -15, 0] }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute -top-32 -left-32 w-96 h-96 bg-indigo-500/15 rounded-full blur-3xl"
-        />
-        <motion.div
-          animate={{ x: [0, -25, 0], y: [0, 20, 0] }}
+          animate={{ x: [0, 30, 0], y: [0, -20, 0], scale: [1, 1.1, 1] }}
           transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute -bottom-48 -right-48 w-[500px] h-[500px] bg-indigo-400/20 rounded-full blur-3xl"
+          className="absolute -top-32 -left-32 w-[500px] h-[500px] bg-indigo-500/15 rounded-full blur-[100px]"
         />
         <motion.div
-          animate={{ x: [0, 15, -10, 0], y: [0, -10, 15, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute top-1/3 right-1/4 w-72 h-72 bg-violet-500/10 rounded-full blur-3xl"
+          animate={{ x: [0, -30, 0], y: [0, 25, 0], scale: [1, 1.15, 1] }}
+          transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute -bottom-48 -right-48 w-[600px] h-[600px] bg-violet-500/15 rounded-full blur-[120px]"
+        />
+        <motion.div
+          animate={{ x: [0, 20, -15, 0], y: [0, -15, 20, 0] }}
+          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute top-1/4 right-1/3 w-72 h-72 bg-blue-500/10 rounded-full blur-[80px]"
         />
 
         {/* Dark overlay at bottom */}
-        <div className="absolute bottom-0 left-0 right-0 h-[55%] z-10" style={{
-          background: 'linear-gradient(to top, rgba(5,5,16,0.9) 0%, rgba(5,5,16,0.4) 60%, transparent 100%)',
+        <div className="absolute bottom-0 left-0 right-0 h-[65%] z-10" style={{
+          background: 'linear-gradient(to top, rgba(3,0,20,0.95) 0%, rgba(3,0,20,0.6) 50%, transparent 100%)',
         }} />
 
         {/* Logo */}
@@ -91,48 +100,74 @@ export default function LoginPage() {
           <NetraLogo variant="white" />
         </div>
 
-        {/* Slogan — staggered entrance */}
+        {/* Content */}
         <div className="absolute bottom-16 left-10 right-10 z-20">
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2, ease }}
-            className="text-display text-white mb-4"
+            transition={{ duration: 0.7, delay: 0.2, ease }}
+            className="text-display text-white mb-3"
           >
             Automate Your<br />Social Media,
           </motion.h1>
           <motion.p
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4, ease }}
-            className="text-section-title text-indigo-300 mb-5"
+            className="text-section-title text-gradient-glow mb-6"
+            style={{
+              background: 'linear-gradient(135deg, #B3BAFC 0%, #E879F9 50%, #B3BAFC 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
           >
             Amplify Your Reach.
           </motion.p>
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
+
+          {/* Feature pills */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.55, ease }}
-            className="text-body-sm text-white/50 max-w-sm"
+            transition={{ duration: 0.5, delay: 0.6, ease }}
+            className="flex flex-col gap-3 max-w-sm"
           >
-            AI-powered content creation and scheduling for modern teams.
-          </motion.p>
+            {FEATURES.map((feat, i) => {
+              const Icon = feat.icon;
+              return (
+                <motion.div
+                  key={feat.label}
+                  initial={{ opacity: 0, x: -16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.4, delay: 0.7 + i * 0.1, ease }}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/[0.06] backdrop-blur-sm border border-white/[0.08]"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-white/[0.08] flex items-center justify-center flex-shrink-0">
+                    <Icon className="w-4 h-4 text-indigo-300" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-white/90">{feat.label}</p>
+                    <p className="text-xs text-white/40">{feat.desc}</p>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </motion.div>
 
           {/* Dot indicators */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.7 }}
+            transition={{ delay: 1.1 }}
             className="flex gap-2 items-center mt-8"
           >
-            <span className="w-2 h-2 rounded-full bg-white/25" />
-            <span className="w-2 h-2 rounded-full bg-white/25" />
-            <span className="w-8 h-2 rounded-full bg-indigo-400 netra-pulse" />
+            <span className="w-2 h-2 rounded-full bg-white/20" />
+            <span className="w-2 h-2 rounded-full bg-white/20" />
+            <span className="w-8 h-2 rounded-full bg-gradient-to-r from-indigo-400 to-violet-400 netra-pulse" />
           </motion.div>
         </div>
 
         {/* Footer */}
-        <p className="absolute bottom-5 left-10 z-20 text-white/20 text-xs">
+        <p className="absolute bottom-5 left-10 z-20 text-white/15 text-xs tracking-wide">
           &copy; 2026 Netra AI &mdash; Social Media Automation
         </p>
       </div>
@@ -151,10 +186,10 @@ export default function LoginPage() {
           <AnimatePresence mode="wait">
             <motion.div
               key={mode}
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.3, ease }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.35, ease }}
               className="w-full max-w-[400px]"
             >
               {/* Header */}
@@ -165,13 +200,13 @@ export default function LoginPage() {
                 <p className="text-body-sm text-muted-foreground mt-2">
                   {mode === 'login' ? (
                     <>Don&apos;t have an account?{' '}
-                      <button onClick={switchMode} className="text-primary hover:text-primary/80 font-semibold transition-colors">
+                      <button onClick={switchMode} className="text-primary hover:text-primary/80 font-semibold transition-colors cursor-pointer">
                         Create account
                       </button>
                     </>
                   ) : (
                     <>Already have an account?{' '}
-                      <button onClick={switchMode} className="text-primary hover:text-primary/80 font-semibold transition-colors">
+                      <button onClick={switchMode} className="text-primary hover:text-primary/80 font-semibold transition-colors cursor-pointer">
                         Log in
                       </button>
                     </>
@@ -180,43 +215,39 @@ export default function LoginPage() {
               </div>
 
               <form onSubmit={mode === 'login' ? handleLogin : handleRegister} className="flex flex-col gap-5">
-                {/* Name fields — register only */}
                 {mode === 'register' && (
                   <div className="grid grid-cols-2 gap-3">
                     <div className="flex flex-col gap-1.5">
                       <Label htmlFor="firstName" className="text-sm font-medium">First name</Label>
-                      <Input id="firstName" type="text" placeholder="First name" value={firstName} onChange={(e) => setFirstName(e.target.value)} required className="h-11 rounded-xl" />
+                      <Input id="firstName" type="text" placeholder="First name" value={firstName} onChange={(e) => setFirstName(e.target.value)} required className="h-11 rounded-xl border-border/80 bg-card focus:border-primary focus:ring-primary/20" />
                     </div>
                     <div className="flex flex-col gap-1.5">
                       <Label htmlFor="lastName" className="text-sm font-medium">Last name</Label>
-                      <Input id="lastName" type="text" placeholder="Last name" value={lastName} onChange={(e) => setLastName(e.target.value)} required className="h-11 rounded-xl" />
+                      <Input id="lastName" type="text" placeholder="Last name" value={lastName} onChange={(e) => setLastName(e.target.value)} required className="h-11 rounded-xl border-border/80 bg-card focus:border-primary focus:ring-primary/20" />
                     </div>
                   </div>
                 )}
 
-                {/* Email */}
                 <div className="flex flex-col gap-1.5">
                   <Label htmlFor="email" className="text-sm font-medium">Email</Label>
-                  <Input id="email" type="email" placeholder="you@company.com" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="off" required className="h-11 rounded-xl" />
+                  <Input id="email" type="email" placeholder="you@company.com" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="off" required className="h-11 rounded-xl border-border/80 bg-card focus:border-primary focus:ring-primary/20" />
                 </div>
 
-                {/* Password */}
                 <div className="flex flex-col gap-1.5">
                   <div className="flex items-center justify-between">
                     <Label htmlFor="password" className="text-sm font-medium">Password</Label>
                     {mode === 'login' && (
-                      <button type="button" className="text-xs text-primary hover:text-primary/80 font-medium transition-colors">Forgot password?</button>
+                      <button type="button" className="text-xs text-primary hover:text-primary/80 font-medium transition-colors cursor-pointer">Forgot password?</button>
                     )}
                   </div>
                   <div className="relative">
-                    <Input id="password" type={showPassword ? 'text' : 'password'} placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="off" required className="h-11 pr-10 rounded-xl" />
-                    <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors" tabIndex={-1}>
+                    <Input id="password" type={showPassword ? 'text' : 'password'} placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="off" required className="h-11 pr-10 rounded-xl border-border/80 bg-card focus:border-primary focus:ring-primary/20" />
+                    <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer" tabIndex={-1}>
                       {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
                   </div>
                 </div>
 
-                {/* Terms — register only */}
                 {mode === 'register' && (
                   <label className="flex items-center gap-2.5 cursor-pointer select-none">
                     <input type="checkbox" checked={agreedToTerms} onChange={(e) => setAgreedToTerms(e.target.checked)} className="w-4 h-4 rounded border-input accent-primary" />
@@ -227,11 +258,9 @@ export default function LoginPage() {
                   </label>
                 )}
 
-                {/* Submit */}
                 <Button
                   type="submit"
-                  className="w-full h-11 mt-1 text-white font-semibold netra-btn-glow netra-btn-shimmer rounded-xl"
-                  style={{ background: 'linear-gradient(135deg, #5B6CF6 0%, #3340B2 100%)' }}
+                  className="w-full h-11 mt-1 netra-btn-premium netra-btn-shimmer rounded-xl font-semibold gap-2 cursor-pointer"
                   disabled={loading}
                 >
                   {loading ? (
@@ -239,7 +268,12 @@ export default function LoginPage() {
                       <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                       {mode === 'login' ? 'Signing in...' : 'Creating account...'}
                     </span>
-                  ) : mode === 'login' ? 'Sign in' : 'Create account'}
+                  ) : (
+                    <>
+                      {mode === 'login' ? 'Sign in' : 'Create account'}
+                      <ArrowRight className="w-4 h-4" />
+                    </>
+                  )}
                 </Button>
               </form>
 
@@ -255,7 +289,7 @@ export default function LoginPage() {
               <Button
                 type="button"
                 variant="outline"
-                className="w-full h-11 gap-3 font-medium rounded-xl transition-shadow hover:shadow-md"
+                className="w-full h-11 gap-3 font-medium rounded-xl transition-all hover:shadow-md hover:border-primary/30 cursor-pointer"
                 onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24">

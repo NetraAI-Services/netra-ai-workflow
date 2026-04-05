@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { PlatformIcon } from '@/components/shared/PlatformIcon';
 import { PageTransition, StaggerContainer, StaggerItem } from '@/components/shared/animations';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PenSquare, Trash2, Sparkles, FileText, Send, Loader2 } from 'lucide-react';
+import { Trash2, Sparkles, FileText, Send, Loader2 } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 import { toast } from 'sonner';
 import type { PlatformId, PostStatus, Post } from '@/types/content';
@@ -15,11 +15,11 @@ import type { PlatformId, PostStatus, Post } from '@/types/content';
 const ALL_STATUSES: PostStatus[] = ['draft', 'scheduled', 'published', 'failed'];
 
 const STATUS_STYLES: Record<PostStatus, string> = {
-  draft:            'bg-gray-50 text-gray-600 ring-1 ring-gray-200/60 dark:bg-gray-900/40 dark:text-gray-400 dark:ring-gray-700/40',
-  scheduled:        'bg-blue-50 text-blue-700 ring-1 ring-blue-200/60 dark:bg-blue-950/40 dark:text-blue-300 dark:ring-blue-800/40',
-  published:        'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200/60 dark:bg-emerald-950/40 dark:text-emerald-300 dark:ring-emerald-800/40',
-  failed:           'bg-red-50 text-red-700 ring-1 ring-red-200/60 dark:bg-red-950/40 dark:text-red-300 dark:ring-red-800/40',
-  pending_approval: 'bg-amber-50 text-amber-700 ring-1 ring-amber-200/60 dark:bg-amber-950/40 dark:text-amber-300 dark:ring-amber-800/40',
+  draft:            'bg-gray-500/10 text-gray-600 ring-1 ring-gray-500/20 dark:bg-gray-500/15 dark:text-gray-400 dark:ring-gray-400/20',
+  scheduled:        'bg-blue-500/10 text-blue-600 ring-1 ring-blue-500/20 dark:bg-blue-500/15 dark:text-blue-400 dark:ring-blue-400/20',
+  published:        'bg-emerald-500/10 text-emerald-600 ring-1 ring-emerald-500/20 dark:bg-emerald-500/15 dark:text-emerald-400 dark:ring-emerald-400/20',
+  failed:           'bg-red-500/10 text-red-600 ring-1 ring-red-500/20 dark:bg-red-500/15 dark:text-red-400 dark:ring-red-400/20',
+  pending_approval: 'bg-amber-500/10 text-amber-600 ring-1 ring-amber-500/20 dark:bg-amber-500/15 dark:text-amber-400 dark:ring-amber-400/20',
 };
 
 const PLATFORM_BRAND_COLORS: Record<PlatformId, string> = {
@@ -97,19 +97,19 @@ export default function PostsPage() {
           </p>
         </div>
         <Link href="/create">
-          <Button className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2 rounded-xl netra-btn-glow">
+          <Button className="netra-btn-premium netra-btn-shimmer gap-2 rounded-xl cursor-pointer">
             <Sparkles className="w-4 h-4" /> New Post
           </Button>
         </Link>
       </div>
 
       {/* Pill-style filter tabs */}
-      <div className="flex gap-1.5 flex-wrap">
+      <div className="flex gap-1.5 flex-wrap p-1 bg-muted/50 dark:bg-muted/30 rounded-xl w-fit">
         {(['all', ...ALL_STATUSES] as const).map((s) => (
           <button
             key={s}
             onClick={() => setFilter(s)}
-            className={`relative px-4 py-1.5 rounded-full text-xs font-semibold transition-colors capitalize ${
+            className={`relative px-4 py-1.5 rounded-lg text-xs font-semibold transition-colors capitalize cursor-pointer ${
               filter === s
                 ? 'text-white'
                 : 'text-muted-foreground hover:text-foreground'
@@ -118,7 +118,7 @@ export default function PostsPage() {
             {filter === s && (
               <motion.span
                 layoutId="posts-filter"
-                className="absolute inset-0 bg-primary rounded-full"
+                className="absolute inset-0 bg-primary rounded-lg shadow-sm"
                 transition={{ type: 'spring', stiffness: 380, damping: 30 }}
               />
             )}
@@ -139,19 +139,19 @@ export default function PostsPage() {
           >
             <div className="netra-card p-14 text-center">
               <motion.div
-                animate={{ y: [0, -4, 0] }}
+                animate={{ y: [0, -6, 0] }}
                 transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-                className="w-14 h-14 rounded-2xl bg-muted/60 flex items-center justify-center mx-auto mb-4"
+                className="w-16 h-16 rounded-2xl bg-gradient-to-br from-muted/80 to-muted/40 flex items-center justify-center mx-auto mb-4"
               >
-                <FileText className="w-7 h-7 text-muted-foreground/40" />
+                <FileText className="w-8 h-8 text-muted-foreground/40" />
               </motion.div>
-              <p className="font-semibold text-foreground">No posts found</p>
-              <p className="text-sm text-muted-foreground mt-1 mb-4">
+              <p className="font-semibold text-foreground text-lg">No posts found</p>
+              <p className="text-sm text-muted-foreground mt-1.5 mb-5">
                 {filter === 'all' ? 'Create your first post to get started.' : `No ${filter} posts.`}
               </p>
               {filter === 'all' && (
                 <Link href="/create">
-                  <Button className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2 rounded-xl netra-btn-glow netra-btn-shimmer">
+                  <Button className="netra-btn-premium netra-btn-shimmer gap-2 rounded-xl cursor-pointer">
                     <Sparkles className="w-4 h-4" /> Create Post
                   </Button>
                 </Link>
@@ -166,7 +166,7 @@ export default function PostsPage() {
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.25 }}
           >
-            <StaggerContainer className="flex flex-col gap-1.5">
+            <StaggerContainer className="flex flex-col gap-2">
               {filtered.map((post) => {
                 const leadPlatform = post.draft.platforms[0] as PlatformId | undefined;
                 const borderColor = leadPlatform ? PLATFORM_BRAND_COLORS[leadPlatform] : undefined;
@@ -174,7 +174,7 @@ export default function PostsPage() {
                 return (
                   <StaggerItem key={post.id}>
                     <motion.div
-                      whileHover={{ y: -2 }}
+                      whileHover={{ y: -1 }}
                       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                       className="netra-card p-4 flex items-center gap-4"
                       style={{
@@ -204,7 +204,7 @@ export default function PostsPage() {
                           <button
                             onClick={() => handlePublish(post)}
                             disabled={publishing === post.id}
-                            className="p-1.5 rounded-xl hover:bg-primary/10 text-muted-foreground/60 hover:text-primary transition-colors disabled:opacity-50"
+                            className="p-1.5 rounded-xl hover:bg-primary/10 text-muted-foreground/60 hover:text-primary transition-colors disabled:opacity-50 cursor-pointer"
                             title="Publish to Instagram"
                           >
                             {publishing === post.id ? (
@@ -216,7 +216,7 @@ export default function PostsPage() {
                         )}
                       <button
                         onClick={() => deletePost(post.id)}
-                        className="p-1.5 rounded-xl hover:bg-destructive/10 text-muted-foreground/40 hover:text-destructive transition-colors"
+                        className="p-1.5 rounded-xl hover:bg-destructive/10 text-muted-foreground/30 hover:text-destructive transition-colors cursor-pointer"
                         title="Delete post"
                       >
                         <Trash2 className="w-4 h-4" />
