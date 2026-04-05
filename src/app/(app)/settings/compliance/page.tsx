@@ -1,13 +1,12 @@
 'use client';
 import { useState } from 'react';
 import { useSettingsStore } from '@/store/useSettingsStore';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { X, Plus } from 'lucide-react';
+import { X, Plus, Shield } from 'lucide-react';
 import { toast } from 'sonner';
 
 const SAFETY_LEVELS = [
@@ -33,86 +32,93 @@ export default function CompliancePage() {
 
   return (
     <div className="space-y-6">
-      <Card className="border-border shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-base">Content Safety Level</CardTitle>
-          <CardDescription>Controls how strictly AI filters potentially sensitive content.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-3 gap-2">
-            {SAFETY_LEVELS.map((level) => (
-              <button
-                key={level.value}
-                onClick={() => updateCompliance({ safetyLevel: level.value })}
-                className={cn(
-                  'p-3 rounded-xl border text-left transition-all',
-                  compliance.safetyLevel === level.value
-                    ? 'border-primary bg-primary/10 text-primary'
-                    : 'border-border bg-card text-muted-foreground hover:border-primary/40'
-                )}
-              >
-                <p className="font-medium text-sm">{level.label}</p>
-                <p className="text-xs mt-0.5">{level.desc}</p>
-              </button>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+      <div className="netra-card rounded-2xl p-6">
+        <div className="mb-6">
+          <h2 className="text-card-title text-foreground font-heading">Content Safety Level</h2>
+          <p className="text-sm text-muted-foreground mt-1">Controls how strictly AI filters potentially sensitive content.</p>
+        </div>
+        <div className="grid grid-cols-3 gap-3">
+          {SAFETY_LEVELS.map((level) => (
+            <button
+              key={level.value}
+              onClick={() => updateCompliance({ safetyLevel: level.value })}
+              className={cn(
+                'p-4 rounded-xl border text-left transition-all duration-200 group',
+                compliance.safetyLevel === level.value
+                  ? 'border-primary bg-primary/12 dark:bg-primary/15 text-primary shadow-lg shadow-primary/20'
+                  : 'border-border/60 bg-surface/40 dark:bg-surface/30 text-muted-foreground hover:border-primary/40 hover:bg-surface/60'
+              )}
+            >
+              <p className="font-semibold text-sm group-hover:text-foreground transition-colors">{level.label}</p>
+              <p className="text-xs mt-1 opacity-70 group-hover:opacity-85 transition-opacity">{level.desc}</p>
+            </button>
+          ))}
+        </div>
+      </div>
 
-      <Card className="border-border shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-base">Restricted Keywords</CardTitle>
-          <CardDescription>Words blocked from appearing in generated content.</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
+      <div className="netra-card rounded-2xl p-6">
+        <div className="mb-6">
+          <h2 className="text-card-title text-foreground font-heading">Restricted Keywords</h2>
+          <p className="text-sm text-muted-foreground mt-1">Words blocked from appearing in generated content.</p>
+        </div>
+        <div className="space-y-4">
           <div className="flex gap-2">
             <Input
               value={newKeyword}
               onChange={(e) => setNewKeyword(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && addKeyword()}
               placeholder="Add a keyword..."
-              className="flex-1"
+              className="flex-1 rounded-xl bg-surface/50 dark:bg-surface/30 border-border/60 hover:border-primary/40 focus:border-primary transition-colors"
             />
-            <Button onClick={addKeyword} size="icon" variant="outline">
+            <Button
+              onClick={addKeyword}
+              size="icon"
+              variant="outline"
+              className="rounded-xl border-border/60 hover:border-primary/40 hover:bg-primary/10 transition-all duration-200 cursor-pointer"
+            >
               <Plus className="w-4 h-4" />
             </Button>
           </div>
           {compliance.restrictedKeywords.length > 0 ? (
             <div className="flex flex-wrap gap-2">
               {compliance.restrictedKeywords.map((kw) => (
-                <span key={kw} className="flex items-center gap-1 bg-secondary text-foreground text-xs px-2.5 py-1.5 rounded-lg">
+                <span key={kw} className="flex items-center gap-2 bg-primary/15 text-primary text-xs px-3 py-1.5 rounded-xl font-medium border border-primary/30 group">
                   {kw}
-                  <button onClick={() => removeKeyword(kw)} className="hover:text-destructive ml-0.5">
-                    <X className="w-3 h-3" />
+                  <button
+                    onClick={() => removeKeyword(kw)}
+                    className="hover:text-destructive transition-colors cursor-pointer opacity-70 group-hover:opacity-100"
+                  >
+                    <X className="w-3.5 h-3.5" />
                   </button>
                 </span>
               ))}
             </div>
           ) : (
-            <p className="text-xs text-muted-foreground">No restricted keywords added.</p>
+            <p className="text-xs text-muted-foreground italic">No restricted keywords added.</p>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      <Card className="border-border shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-base">Safety Toggles</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex items-center justify-between">
+      <div className="netra-card rounded-2xl p-6">
+        <div className="flex items-center gap-2 mb-6">
+          <Shield className="w-5 h-5 text-primary" />
+          <h2 className="text-card-title text-foreground font-heading">Safety Toggles</h2>
+        </div>
+        <div className="space-y-5">
+          <div className="flex items-center justify-between p-4 rounded-xl bg-surface/50 dark:bg-surface/30 border border-border/40 hover:border-border/60 transition-all duration-200">
             <div>
-              <Label>Block Explicit Content</Label>
-              <p className="text-xs text-muted-foreground mt-0.5">Prevent any explicit imagery or language from being generated.</p>
+              <Label className="font-semibold text-sm">Block Explicit Content</Label>
+              <p className="text-xs text-muted-foreground mt-1">Prevent any explicit imagery or language from being generated.</p>
             </div>
             <Switch
               checked={compliance.blockExplicitContent}
               onCheckedChange={(v) => updateCompliance({ blockExplicitContent: v })}
             />
           </div>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between p-4 rounded-xl bg-surface/50 dark:bg-surface/30 border border-border/40 hover:border-border/60 transition-all duration-200">
             <div>
-              <Label>Require Ad Disclosure</Label>
-              <p className="text-xs text-muted-foreground mt-0.5">Automatically append a disclosure tag to sponsored content.</p>
+              <Label className="font-semibold text-sm">Require Ad Disclosure</Label>
+              <p className="text-xs text-muted-foreground mt-1">Automatically append a disclosure tag to sponsored content.</p>
             </div>
             <Switch
               checked={compliance.requireDisclosure}
@@ -120,21 +126,24 @@ export default function CompliancePage() {
             />
           </div>
           {compliance.requireDisclosure && (
-            <div className="space-y-1.5">
-              <Label htmlFor="disclosure-text">Disclosure Text</Label>
+            <div className="space-y-2.5 p-4 rounded-xl bg-primary/5 border border-primary/20">
+              <Label htmlFor="disclosure-text" className="text-sm font-semibold">Disclosure Text</Label>
               <Input
                 id="disclosure-text"
                 value={compliance.disclosureText}
                 onChange={(e) => updateCompliance({ disclosureText: e.target.value })}
                 placeholder="#ad #sponsored"
+                className="rounded-xl bg-surface/50 dark:bg-surface/30 border-primary/30 hover:border-primary/40 focus:border-primary transition-colors"
               />
             </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      <Button onClick={() => toast.success('Compliance settings saved')}
-        className="bg-primary hover:bg-primary/90 text-primary-foreground">
+      <Button
+        onClick={() => toast.success('Compliance settings saved')}
+        className="netra-btn-premium netra-btn-shimmer rounded-xl cursor-pointer transition-all duration-200 hover:shadow-lg hover:shadow-primary/30"
+      >
         Save Settings
       </Button>
     </div>

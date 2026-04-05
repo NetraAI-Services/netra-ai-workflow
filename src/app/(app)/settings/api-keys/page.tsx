@@ -1,11 +1,10 @@
 'use client';
 import { useState } from 'react';
 import { useSettingsStore } from '@/store/useSettingsStore';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { Eye, EyeOff, CheckCircle2, ExternalLink } from 'lucide-react';
+import { Eye, EyeOff, CheckCircle2, ExternalLink, AlertTriangle } from 'lucide-react';
 import { toast } from 'sonner';
 
 function ApiKeyField({
@@ -16,13 +15,13 @@ function ApiKeyField({
 }) {
   const [show, setShow] = useState(false);
   return (
-    <div className="space-y-1.5">
+    <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <Label htmlFor={id}>{label}</Label>
+        <Label htmlFor={id} className="font-semibold text-sm">{label}</Label>
         {docsUrl && (
           <a href={docsUrl} target="_blank" rel="noreferrer"
-            className="text-xs text-primary flex items-center gap-1 hover:underline">
-            Get API key <ExternalLink className="w-3 h-3" />
+            className="text-xs text-primary flex items-center gap-1 hover:text-primary/80 transition-colors">
+            Get API key <ExternalLink className="w-3.5 h-3.5" />
           </a>
         )}
       </div>
@@ -33,23 +32,23 @@ function ApiKeyField({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder || 'sk-•••••••••••••••••••••••'}
-          className="pr-10 font-mono text-sm"
+          className="pr-12 font-mono text-sm bg-surface/50 dark:bg-surface/30 border-border/60 hover:border-primary/40 focus:border-primary transition-colors"
           autoComplete="off"
         />
         <button
           type="button"
           onClick={() => setShow((s) => !s)}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer p-1"
         >
           {show ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
         </button>
       </div>
       {value && (
-        <p className="text-xs text-green-600 dark:text-green-400 flex items-center gap-1">
-          <CheckCircle2 className="w-3 h-3" /> Key saved
+        <p className="text-xs text-emerald-500 dark:text-emerald-400 flex items-center gap-1 font-medium">
+          <CheckCircle2 className="w-3.5 h-3.5" /> Key saved
         </p>
       )}
-      {hint && <p className="text-xs text-muted-foreground">{hint}</p>}
+      {hint && <p className="text-xs text-muted-foreground leading-relaxed">{hint}</p>}
     </div>
   );
 }
@@ -63,14 +62,14 @@ export default function ApiKeysPage() {
 
   return (
     <div className="space-y-6">
-      <Card className="border-border shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-base">Image Generation APIs</CardTitle>
-          <CardDescription>
+      <div className="netra-card rounded-2xl p-6">
+        <div className="mb-6">
+          <h2 className="text-card-title text-foreground font-heading">Image Generation APIs</h2>
+          <p className="text-sm text-muted-foreground mt-1">
             Keys are stored locally in your browser and sent only to the server-side API routes — never exposed in network requests.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-5">
+          </p>
+        </div>
+        <div className="space-y-6">
           <ApiKeyField
             id="gemini-key"
             label="Google Gemini API Key"
@@ -87,22 +86,24 @@ export default function ApiKeysPage() {
             placeholder="sk-•••••••••••••••••••••••"
             hint="Used for DALL-E 3 image generation."
           />
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      <Card className="border-border shadow-sm border-amber-200 dark:border-amber-900/40 bg-amber-50/50 dark:bg-amber-900/10">
-        <CardContent className="p-4 flex gap-3 items-start">
-          <div className="w-5 h-5 mt-0.5 flex-shrink-0 text-amber-600 dark:text-amber-400">⚠</div>
+      <div className="netra-card rounded-2xl p-6 border border-amber-500/20 dark:border-amber-500/20 bg-amber-500/5 dark:bg-amber-500/5">
+        <div className="flex gap-4 items-start">
+          <div className="w-5 h-5 mt-0.5 flex-shrink-0">
+            <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+          </div>
           <div>
-            <p className="text-sm font-medium text-amber-800 dark:text-amber-300">Security notice</p>
-            <p className="text-xs text-amber-700 dark:text-amber-400 mt-0.5">
-              API keys are stored in localStorage. For production use, configure keys as server environment variables in <code className="font-mono bg-amber-100 dark:bg-amber-900/40 px-1 rounded">.env.local</code> instead.
+            <p className="text-sm font-semibold text-amber-800 dark:text-amber-300">Security notice</p>
+            <p className="text-xs text-amber-700 dark:text-amber-400 mt-2 leading-relaxed">
+              API keys are stored in localStorage. For production use, configure keys as server environment variables in <code className="font-mono bg-amber-100 dark:bg-amber-900/30 text-amber-900 dark:text-amber-300 px-2 py-1 rounded-lg">.env.local</code> instead.
             </p>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      <Button onClick={save} className="bg-primary hover:bg-primary/90 text-primary-foreground">
+      <Button onClick={save} className="netra-btn-premium netra-btn-shimmer rounded-xl cursor-pointer transition-all duration-200 hover:shadow-lg hover:shadow-primary/30">
         Save API Keys
       </Button>
     </div>
