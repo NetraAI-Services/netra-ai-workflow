@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
     const { GoogleGenerativeAI } = await import('@google/generative-ai');
     const genAI = new GoogleGenerativeAI(key);
 
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash-preview-04-17' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp-image-generation' });
 
     const result = await model.generateContent({
       contents: [{ role: 'user', parts: [{ text: `Create a professional social media image: ${prompt}` }] }],
