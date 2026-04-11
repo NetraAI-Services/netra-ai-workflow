@@ -234,22 +234,25 @@ export default function DashboardPage() {
             <StaggerContainer className="flex flex-col gap-2" delay={0.15} staggerDelay={0.05}>
               {recent.map((post) => (
                 <StaggerItem key={post.id}>
-                  <div className="netra-card p-4 flex items-center gap-4 cursor-pointer">
-                    <div className="flex gap-1.5 flex-shrink-0">
-                      {post.draft.platforms.map((p) => (
-                        <PlatformIcon key={p} platform={p as PlatformId} size={16} />
-                      ))}
+                  <Link href={`/posts/${post.id}`}>
+                    <div className="netra-card netra-card-interactive p-4 flex items-center gap-4 cursor-pointer group">
+                      <div className="flex gap-1.5 flex-shrink-0">
+                        {post.draft.platforms.map((p) => (
+                          <PlatformIcon key={p} platform={p as PlatformId} size={16} />
+                        ))}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-foreground truncate group-hover:text-primary transition-colors">
+                          {post.draft.topic || 'Untitled Post'}
+                        </p>
+                        <p className="text-xs text-muted-foreground mt-0.5">{formatDate(post.createdAt)}</p>
+                      </div>
+                      <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full capitalize ${STATUS_COLORS[post.status] || ''}`}>
+                        {post.status}
+                      </span>
+                      <ArrowRight className="w-3.5 h-3.5 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 transition-all duration-200 flex-shrink-0" />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-foreground truncate">
-                        {post.draft.topic || 'Untitled Post'}
-                      </p>
-                      <p className="text-xs text-muted-foreground mt-0.5">{formatDate(post.createdAt)}</p>
-                    </div>
-                    <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full capitalize ${STATUS_COLORS[post.status] || ''}`}>
-                      {post.status}
-                    </span>
-                  </div>
+                  </Link>
                 </StaggerItem>
               ))}
             </StaggerContainer>
