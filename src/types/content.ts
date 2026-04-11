@@ -1,5 +1,13 @@
 export type PlatformId = 'instagram' | 'tiktok' | 'youtube' | 'twitter';
 
+export interface ReferenceImage {
+  id: string;
+  name: string;
+  mimeType: string;
+  base64: string;
+  dataUrl: string;
+}
+
 export type ContentType =
   | 'image_post'
   | 'reel'

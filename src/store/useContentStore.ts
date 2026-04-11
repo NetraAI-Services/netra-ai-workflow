@@ -1,7 +1,7 @@
 'use client';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { Draft, GeneratedCaption, GeneratedImage, PlatformId, ContentType } from '@/types/content';
+import type { Draft, GeneratedCaption, GeneratedImage, ReferenceImage, PlatformId, ContentType } from '@/types/content';
 import { generateId } from '@/lib/utils';
 
 interface GenerationState {
@@ -9,6 +9,7 @@ interface GenerationState {
   isGeneratingImage: boolean;
   captions: GeneratedCaption[];
   images: GeneratedImage[];
+  referenceImages: ReferenceImage[];
   error: string | null;
 }
 
@@ -32,6 +33,8 @@ interface ContentStore {
   setImages: (images: GeneratedImage[]) => void;
   selectImage: (id: string) => void;
   setGenerationError: (err: string | null) => void;
+  addReferenceImage: (img: ReferenceImage) => void;
+  removeReferenceImage: (id: string) => void;
 }
 
 const defaultGen: GenerationState = {
@@ -39,6 +42,7 @@ const defaultGen: GenerationState = {
   isGeneratingImage: false,
   captions: [],
   images: [],
+  referenceImages: [],
   error: null,
 };
 
@@ -124,6 +128,20 @@ export const useContentStore = create<ContentStore>()(
         })),
       setGenerationError: (err) =>
         set((s) => ({ generationState: { ...s.generationState, error: err } })),
+      addReferenceImage: (img) =>
+        set((s) => ({
+          generationState: {
+            ...s.generationState,
+            referenceImages: [...s.generationState.referenceImages, img],
+          },
+        })),
+      removeReferenceImage: (id) =>
+        set((s) => ({
+          generationState: {
+            ...s.generationState,
+            referenceImages: s.generationState.referenceImages.filter((r) => r.id !== id),
+          },
+        })),
     }),
     { name: 'netra-content', partialize: (s) => ({ drafts: s.drafts }) }
   )

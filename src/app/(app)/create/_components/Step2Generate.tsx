@@ -21,7 +21,7 @@ export function Step2Generate() {
 
   if (!currentDraft) return null;
 
-  const { isGeneratingCaption, isGeneratingImage, captions, images, error } = generationState;
+  const { isGeneratingCaption, isGeneratingImage, captions, images, referenceImages, error } = generationState;
 
   async function generateCaptions() {
     if (!currentDraft) return;
@@ -36,6 +36,7 @@ export function Step2Generate() {
           tone: currentDraft.tone,
           platforms: currentDraft.platforms,
           apiKey: apiKeys.geminiApiKey,
+          referenceImages: referenceImages.map((r) => ({ base64: r.base64, mimeType: r.mimeType })),
         }),
       });
       const data = await res.json();
@@ -61,6 +62,7 @@ export function Step2Generate() {
           prompt: currentDraft.topic,
           provider: imageProvider,
           apiKey: imageProvider === 'gemini' ? apiKeys.geminiApiKey : apiKeys.openaiApiKey,
+          referenceImages: referenceImages.map((r) => ({ base64: r.base64, mimeType: r.mimeType })),
         }),
       });
       const data = await res.json();

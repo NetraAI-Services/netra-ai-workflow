@@ -11,7 +11,7 @@ async function ensureDir() {
 
 export async function POST(req: NextRequest) {
   try {
-    const { prompt, provider, apiKey } = await req.json();
+    const { prompt, provider, apiKey, referenceImages } = await req.json();
 
     if (!prompt) return NextResponse.json({ error: 'Prompt is required' }, { status: 400 });
 
@@ -55,8 +55,13 @@ export async function POST(req: NextRequest) {
 
     const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash-image' });
 
+    const refParts = (referenceImages ?? []).map((r: { base64: string; mimeType: string }) => ({
+      inlineData: { mimeType: r.mimeType, data: r.base64 },
+    }));
+    const imagePromptText = `Create a professional social media image: ${prompt}${refParts.length > 0 ? '. Use the provided reference images as style and composition guidance.' : ''}`;
+
     const result = await model.generateContent({
-      contents: [{ role: 'user', parts: [{ text: `Create a professional social media image: ${prompt}` }] }],
+      contents: [{ role: 'user', parts: [...refParts, { text: imagePromptText }] }],
       generationConfig: { responseModalities: ['IMAGE', 'TEXT'] } as Parameters<typeof model.generateContent>[0] extends { generationConfig?: infer G } ? G : never,
     });
 

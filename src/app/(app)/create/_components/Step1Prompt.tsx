@@ -1,23 +1,54 @@
 'use client';
+import { useRef } from 'react';
 import { useContentStore } from '@/store/useContentStore';
 import { useSettingsStore } from '@/store/useSettingsStore';
 import { useIdeasStore } from '@/store/useIdeasStore';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { TONE_OPTIONS } from '@/lib/constants';
-import { cn } from '@/lib/utils';
+import { cn, generateId } from '@/lib/utils';
+import { ImagePlus, X } from 'lucide-react';
 
 export function Step1Prompt() {
-  const { currentDraft, updateDraft, setWizardStep } = useContentStore();
+  const { currentDraft, updateDraft, setWizardStep, generationState, addReferenceImage, removeReferenceImage } = useContentStore();
   const { brand } = useSettingsStore();
   const { pillars } = useIdeasStore();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   if (!currentDraft) return null;
 
+  const { referenceImages } = generationState;
   const canContinue = currentDraft.topic.trim().length > 0;
+
+  function handleFiles(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files || []);
+    const remaining = 4 - referenceImages.length;
+    files.slice(0, remaining).forEach((file) => {
+      if (file.size > 5 * 1024 * 1024) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const dataUrl = reader.result as string;
+        addReferenceImage({
+          id: generateId(),
+          name: file.name,
+          mimeType: file.type,
+          base64: dataUrl.split(',')[1],
+          dataUrl,
+        });
+      };
+      reader.readAsDataURL(file);
+    });
+    e.target.value = '';
+  }
+
+  function handleDrop(e: React.DragEvent) {
+    e.preventDefault();
+    const files = Array.from(e.dataTransfer.files).filter((f) => f.type.startsWith('image/'));
+    const fakeEvent = { target: { files, value: '' }, preventDefault: () => {} } as unknown as React.ChangeEvent<HTMLInputElement>;
+    handleFiles(fakeEvent);
+  }
 
   return (
     <div className="space-y-5">
@@ -96,6 +127,56 @@ export function Step1Prompt() {
               </div>
             </div>
           )}
+        </CardContent>
+      </Card>
+
+      {/* Reference Images */}
+      <Card className="border-border shadow-sm">
+        <CardContent className="p-5 space-y-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <Label>Reference Images <span className="font-normal text-muted-foreground">(optional)</span></Label>
+              <p className="text-xs text-muted-foreground mt-0.5">Upload inspiration images to guide the AI when generating captions and images.</p>
+            </div>
+            {referenceImages.length > 0 && (
+              <span className="text-xs text-muted-foreground tabular-nums">{referenceImages.length}/4</span>
+            )}
+          </div>
+
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/gif"
+            multiple
+            className="hidden"
+            onChange={handleFiles}
+          />
+
+          <div className="flex flex-wrap gap-2">
+            {referenceImages.map((img) => (
+              <div key={img.id} className="relative w-16 h-16 rounded-lg overflow-hidden border border-border group flex-shrink-0">
+                <img src={img.dataUrl} alt={img.name} className="w-full h-full object-cover" />
+                <button
+                  onClick={() => removeReferenceImage(img.id)}
+                  className="absolute inset-0 bg-black/55 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity cursor-pointer"
+                >
+                  <X className="w-4 h-4 text-white" />
+                </button>
+              </div>
+            ))}
+
+            {referenceImages.length < 4 && (
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                onDrop={handleDrop}
+                onDragOver={(e) => e.preventDefault()}
+                className="w-16 h-16 rounded-lg border-2 border-dashed border-border hover:border-primary/50 hover:bg-primary/5 flex flex-col items-center justify-center text-muted-foreground transition-all cursor-pointer gap-1"
+              >
+                <ImagePlus className="w-5 h-5" />
+                <span className="text-[9px] font-medium">Add</span>
+              </button>
+            )}
+          </div>
         </CardContent>
       </Card>
 
