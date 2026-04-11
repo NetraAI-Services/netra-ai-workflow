@@ -181,6 +181,7 @@ export default function PostsPage() {
                         borderLeft: borderColor ? `3px solid ${borderColor}` : undefined,
                       }}
                     >
+                      <Link href={`/posts/${post.id}`} className="flex items-center gap-4 flex-1 min-w-0">
                       <div className="flex gap-1.5 flex-shrink-0">
                         {post.draft.platforms.map((p) => (
                           <PlatformIcon key={p} platform={p as PlatformId} size={18} />
@@ -196,6 +197,7 @@ export default function PostsPage() {
                             : formatDate(post.createdAt)}
                         </p>
                       </div>
+                      </Link>
                       <span className={`hidden sm:inline text-[11px] font-semibold px-2.5 py-1 rounded-full capitalize ${STATUS_STYLES[post.status]}`}>
                         {post.status.replace('_', ' ')}
                       </span>
