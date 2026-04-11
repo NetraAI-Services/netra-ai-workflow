@@ -67,6 +67,8 @@ export function Step2Generate() {
       if (!res.ok) throw new Error(data.error || 'Image generation failed');
       setImages(data.images);
       updateDraft({ images: data.images });
+      // Auto-select first image if none selected yet
+      if (data.images.length > 0) selectImage(data.images[0].id);
     } catch (e: unknown) {
       setGenerationError(e instanceof Error ? e.message : 'Failed to generate images');
     } finally {

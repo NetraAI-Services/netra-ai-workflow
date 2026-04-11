@@ -52,7 +52,10 @@ export function Step4Preview() {
   if (!currentDraft) return null;
 
   const { captions, images } = generationState;
-  const selectedImage = images.find((i) => i.id === currentDraft.selectedImageId);
+  // Fall back to currentDraft.images if generationState is empty (e.g. after navigation)
+  const allImages = images.length > 0 ? images : currentDraft.images;
+  const selectedImage =
+    allImages.find((i) => i.id === currentDraft.selectedImageId) ?? allImages[0];
   const handle = brand.name || 'My Brand';
 
   return (
