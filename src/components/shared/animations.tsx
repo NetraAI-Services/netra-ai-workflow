@@ -1,22 +1,38 @@
 'use client';
 
 import { motion, useMotionValue, useTransform, animate, useInView, AnimatePresence } from 'framer-motion';
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 
 /* ── Shared easings ────────────────────────────────────── */
 const smoothEase = [0.25, 0.1, 0.25, 1] as const;
 const decelerate = [0.32, 0.72, 0, 1] as const;
 
+/* ── Client-only guard (prevents SSR hydration mismatches) ── */
+function useIsClient() {
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => { setIsClient(true); }, []);
+  return isClient;
+}
+
 /* ── Reduced motion hook ───────────────────────────────── */
 function usePrefersReducedMotion() {
-  if (typeof window === 'undefined') return false;
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReduced(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setReduced(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+  return reduced;
 }
 
 /* ── 1. PageTransition ─────────────────────────────────── */
 export function PageTransition({ children, className }: { children: ReactNode; className?: string }) {
+  const isClient = useIsClient();
   const reduced = usePrefersReducedMotion();
-  if (reduced) return <div className={className}>{children}</div>;
+
+  if (!isClient || reduced) return <div className={className}>{children}</div>;
 
   return (
     <motion.div
@@ -42,8 +58,10 @@ export function StaggerContainer({
   delay?: number;
   staggerDelay?: number;
 }) {
+  const isClient = useIsClient();
   const reduced = usePrefersReducedMotion();
-  if (reduced) return <div className={className}>{children}</div>;
+
+  if (!isClient || reduced) return <div className={className}>{children}</div>;
 
   return (
     <motion.div
@@ -72,6 +90,10 @@ export function StaggerItem({
   children: ReactNode;
   className?: string;
 }) {
+  const isClient = useIsClient();
+
+  if (!isClient) return <div className={className}>{children}</div>;
+
   return (
     <motion.div
       variants={{
